@@ -1,0 +1,44 @@
+{% extends "starter.html" %}
+{% block title %}{{pagina}}{% endblock %} 
+
+{% block head %}
+  	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+  <style type="text/css" class="init">
+	
+  </style>
+   
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="embed-responsive embed-responsive-1by1" style="min-height: 300px; max-height: 700px;">
+					<iframe class="embed-responsive-item" src="/dash/scatter" ></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+	
+</script>
+
+
+
+{% endblock %}

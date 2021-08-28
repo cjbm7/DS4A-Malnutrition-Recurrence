@@ -1,0 +1,214 @@
+{% extends "starter.html" %}
+{% block title %}{{pagina}}{% endblock %} 
+
+{% block head %}
+  	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+  <style type="text/css" class="init">
+	
+  </style>
+   
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-6">
+
+					<div id='FormRegional' class="card">
+						<h5 class="card-header">
+							Card title
+						</h5>
+						<div class="card-body">
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Departamento</label>
+									<select class="form-control select2" style="width: 100%;">
+									<option selected="selected">Todos</option>
+									<option>Bogotá D.C.</option>
+									<option>Antioquia</option>
+									<option>Atlántico</option>
+									<option>Amazonas</option>
+									<option>Arauca</option>
+									<option>Bolívar</option>
+									<option>Boyacá</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Municipio</label>
+									<select class="form-control select2" style="width: 100%;">
+									  <option selected="selected">Todos</option>
+									  <option>Bogotá D.C.</option>
+									  <option>Antioquia</option>
+									  <option>Atlántico</option>
+									  <option>Amazonas</option>
+									  <option>Arauca</option>
+									  <option>Bolívar</option>
+									  <option>Boyacá</option>
+									</select>
+								</div>
+							</div>
+
+
+						</div>
+
+					</div>
+					<div class="card">
+						<h5 class="card-header">
+							Card title
+						</h5>
+						<div class="card-body">
+							
+
+
+
+
+							<div class="row">
+								<div class="col-sm-3 col-6">
+									<div class="description-block border-right">
+										<span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+										<h5 class="description-header">$35,210.43</h5>
+										<span class="description-text">TOTAL REVENUE</span>
+									</div>
+								<!-- /.description-block -->
+								</div>
+								<!-- /.col -->
+								<div class="col-sm-3 col-6">
+									<div class="description-block border-right">
+										<span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+										<h5 class="description-header">$10,390.90</h5>
+										<span class="description-text">TOTAL COST</span>
+									</div>
+								<!-- /.description-block -->
+								</div>
+								<!-- /.col -->
+								<div class="col-sm-3 col-6">
+									<div class="description-block border-right">
+										<span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+										<h5 class="description-header">$24,813.53</h5>
+										<span class="description-text">TOTAL PROFIT</span>
+									</div>
+								<!-- /.description-block -->
+								</div>
+								<!-- /.col -->
+								<div class="col-sm-3 col-6">
+									<div class="description-block">
+										<span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+										<h5 class="description-header">1200</h5>
+										<span class="description-text">GOAL COMPLETIONS</span>
+									</div>
+								<!-- /.description-block -->
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					
+
+
+					<div class="embed-responsive embed-responsive-1by1" style="min-height: 300px; max-height: 480px;">
+						<iframe class="embed-responsive-item" src="/dash/maps" ></iframe>
+					  </div>
+
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-md-12">
+					<table id="example" class="display" style="width:100%">
+						<thead>
+							<tr>
+								<th>Recurso</th>
+								<th>Hora</th>
+								<th>Nombre Paciente</th>
+								<th>Servicio</th>
+								<th>Empresa</th>
+								<th>Anest.</th>
+								<th>Equipo</th>
+								<th>item</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th>Recurso</th>
+								<th>Hora</th>
+								<th>Nombre Paciente</th>
+								<th>Servicio</th>
+								<th>Empresa</th>
+								<th>Anest.</th>
+								<th>Equipo</th>
+								<th>item</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+	
+$(document).ready(function() {
+
+var table = $('#example').DataTable( {
+	scrollX:        true,
+	scrollCollapse: true,
+	fixedColumns:   {
+		leftColumns: 1,
+		rightColumns: 1
+	},
+	"pageLength": 100,
+	"ajax": {
+			"url": "/pruebaj/",
+			"type": "GET",
+			"dataType": "json",
+			"dataSrc": "data",
+			"contentType":"application/json"
+		},
+		
+	"columns": [
+		{ "data": "IdBeneficiario" },
+		{ "data": "EdadMeses-0" },
+		{ "data": "Peso-1" },
+		{ "data": "Talla-1" },
+		{ "data": "ZScorePesoTalla-1" },
+		{ "data": "ZScoreIMC-1" },
+		{ "data": "RiesgoDesnutricion3Meses" }
+	],
+
+
+	"createdRow": function (row, data, dataIndex, cells) {
+		if (data.RiesgoDesnutricion3Meses > 0.5 && data.RiesgoDesnutricion3Meses <= 0.75) {
+			$(row).addClass('Highlight');
+		}
+		else if (data.RiesgoDesnutricion3Meses > 0.75) {
+			$(row).addClass('oHighlight');
+		}}
+} );
+});
+</script>
+
+
+
+{% endblock %}

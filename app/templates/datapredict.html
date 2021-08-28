@@ -1,0 +1,210 @@
+{% extends "starter.html" %}
+{% block title %}{{pagina}}{% endblock %} 
+
+{% block head %}
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+
+    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+	
+  <style type="text/css" class="init">
+	
+	td.details-control {
+        background: url('{{ url_for('static', filename='img/details_open.png') }}') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url('{{ url_for('static', filename='img/details_close.png') }}') no-repeat center center;
+    }
+	
+	
+	table#example.dataTable tbody tr.Highlight > .sorting_1 {
+		background-color: rgb(170, 228, 255);
+		/*#ffa*/;
+	}
+
+	table#example.dataTable tbody tr.Highlight > .sorting_2 {
+		background-color: rgb(170, 228, 255);
+	}
+
+	table#example.dataTable tbody tr.Highlight {
+		background-color: rgb(170, 228, 255);
+	}
+	
+    table#example.dataTable tbody tr.oHighlight > .sorting_1 {
+		background-color: rgb(173, 255, 170);
+	}
+
+	table#example.dataTable tbody tr.oHighlight > .sorting_2 {
+		background-color: rgb(173, 255, 170);
+	}
+
+	table#example.dataTable tbody tr.oHighlight {
+		background-color: rgb(173, 255, 170);
+	}
+	
+	tr.odd td:first-child,
+	tr.even td:first-child {
+		padding-left: 4em;
+	}
+	
+  </style>
+   
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row">
+	<div class="col-12">
+		<div class="card">
+		<div class="card-body">
+			<div class="row align-items-start">
+				<div class="col">
+					<label class="form-field__label">File ('example.csv'):    </label>
+				</div>
+				<div class="col">
+					
+				</div>
+				<div class="col">
+
+				</div>
+			</div>
+			<form method="post" enctype="multipart/form-data" action="/predictor">
+				<div class="row align-items-start">
+					<div class="col">
+						<div class="custom-file">
+							<input type="file" name="data_file" class="custom-file-input" id="exampleInputFile">
+							<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+						</div>
+					</div>
+					<div class="col">
+						<button type="submit" class="btn btn-outline-primary" value="generar">Run Predictor</button>
+					</div>
+					<div class="col">
+						<input type="hidden" id="idt" value="{{idt}}">
+					</div>
+				</div>
+			</form>
+		
+		</div>
+	</div>
+    </div>
+	</div>
+	
+	<div class="row">
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="row align-items-start">
+					<center><h4>Predictor results</h4></center>
+				</div>
+			</div>
+			<!-- /.card-header -->
+			<div class="card-body">
+				
+					<div class="row">
+						<div class="col-12">
+							<table id="example" class="display" style="width:100%">
+								<thead>
+									<tr>
+										<th>IdBeneficiario</th>
+										<th>EdadMeses</th>
+										<th>Peso</th>
+										<th>Talla</th>
+										<th>ZScorePesoTalla</th>
+										<th>ZScoreIMC</th>	
+										<th>RiesgoDesnutricion3Meses</th>									
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th>IdBeneficiario</th>
+										<th>EdadMeses</th>
+										<th>Peso</th>
+										<th>Talla</th>
+										<th>ZScorePesoTalla</th>
+										<th>ZScoreIMC</th>	
+										<th>RiesgoDesnutricion3Meses</th>										
+									</tr>
+								</tfoot>
+							</table>
+						
+						</div>
+					</div>
+				
+			</div>
+			<!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+	</div>
+    <!-- /.row -->
+</div>
+
+{% endblock %}
+
+
+
+{% block js %}
+
+<script>
+$(function () {
+  bsCustomFileInput.init();
+});
+</script>
+
+<script>
+
+$(document).ready(function() {
+
+    var table = $('#example').DataTable( {
+        scrollX:        true,
+        scrollCollapse: true,
+        fixedColumns:   {
+            leftColumns: 1,
+            rightColumns: 1
+        },
+		"pageLength": 100,
+		"ajax": {
+				"url": "/pjson/"+ idt.value,
+				"type": "GET",
+				"dataType": "json",
+                "dataSrc": "data",
+                "contentType":"application/json"
+            },
+			
+        "columns": [
+            { "data": "IdBeneficiario" },
+            { "data": "EdadMeses-0" },
+            { "data": "Peso-1" },
+            { "data": "Talla-1" },
+			{ "data": "ZScorePesoTalla-1" },
+			{ "data": "ZScoreIMC-1" },
+			{ "data": "RiesgoDesnutricion3Meses" }
+        ],
+
+
+		"createdRow": function (row, data, dataIndex, cells) {
+			if (data.RiesgoDesnutricion3Meses > 0.5 && data.RiesgoDesnutricion3Meses <= 0.75) {
+				$(row).addClass('Highlight');
+			}
+			else if (data.RiesgoDesnutricion3Meses > 0.75) {
+				$(row).addClass('oHighlight');
+			}}
+    } );
+});
+
+</script>
+
+
+
+{% endblock %}
+
+	
