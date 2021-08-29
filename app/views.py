@@ -22,10 +22,10 @@ def uidg(largo=7):
 @app.route('/')  #Página de inicio
 def inicio():
     context = {
-        'pagina': 'Welcome - $Página de InicioS$',
+        'pagina': 'DS4a Final Project - Recurrence of malnutrition in Colombia: Analysis and prediction of associated risk factors',
         }
-    return redirect(url_for('data_predict'))  #temporal
-    #return render_template('init.html', **context)
+    #return redirect(url_for('data_predict'))  #temporal
+    return render_template('index.html', **context)
 
 
 @app.route('/data_predict', methods=['GET', 'POST'])  #Página del predictor
