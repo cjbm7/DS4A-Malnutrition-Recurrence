@@ -8,7 +8,51 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
+
+    <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+	<script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js"></script>
+	<link href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css" />
+  
+
   <style type="text/css" class="init">
+	td.details-control {
+        background: url('{{ url_for('static', filename='img/details_open.png') }}') no-repeat center center;
+        cursor: pointer;
+    }
+    tr.shown td.details-control {
+        background: url('{{ url_for('static', filename='img/details_close.png') }}') no-repeat center center;
+    }
+
+	table#example.dataTable tbody tr.Highlight > .sorting_1 {
+		background-color: rgb(173, 255, 170);
+		/*#ffa*/;
+	}
+
+	table#example.dataTable tbody tr.Highlight > .sorting_2 {
+		background-color: rgb(173, 255, 170);
+	}
+
+	table#example.dataTable tbody tr.Highlight {
+		background-color: rgb(173, 255, 170);
+	}
+	
+    table#example.dataTable tbody tr.oHighlight > .sorting_1 {
+		background-color: rgb(170, 228, 255);
+	}
+
+	table#example.dataTable tbody tr.oHighlight > .sorting_2 {
+		background-color: rgb(170, 228, 255);
+	}
+
+	table#example.dataTable tbody tr.oHighlight {
+		background-color: rgb(170, 228, 255);
+	}
+	
+	tr.odd td:first-child,
+	tr.even td:first-child {
+		padding-left: 4em;
+	}
 	
   </style>
    
@@ -30,7 +74,7 @@
 							Card title
 						</h5>
 						<div class="card-body">
-
+							<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Departamento</label>
@@ -62,7 +106,7 @@
 									</select>
 								</div>
 							</div>
-
+						</div>
 
 						</div>
 
@@ -131,32 +175,34 @@
 			<hr>
 			<div class="row">
 				<div class="col-md-12">
+					<div class="card card-body">
 					<table id="example" class="display" style="width:100%">
 						<thead>
 							<tr>
-								<th>Recurso</th>
-								<th>Hora</th>
-								<th>Nombre Paciente</th>
-								<th>Servicio</th>
-								<th>Empresa</th>
-								<th>Anest.</th>
-								<th>Equipo</th>
-								<th>item</th>
+								<th></th>
+								<th>IdBeneficiario</th>
+								<th>EdadMeses</th>
+								<th>Peso</th>
+								<th>Talla</th>
+								<th>ZScorePesoTalla</th>
+								<th>ZScoreIMC</th>
+								<th>RiesgoDesnutricion3Meses</th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
-								<th>Recurso</th>
-								<th>Hora</th>
-								<th>Nombre Paciente</th>
-								<th>Servicio</th>
-								<th>Empresa</th>
-								<th>Anest.</th>
-								<th>Equipo</th>
-								<th>item</th>
+								<th></th>
+								<th>IdBeneficiario</th>
+								<th>EdadMeses</th>
+								<th>Peso</th>
+								<th>Talla</th>
+								<th>ZScorePesoTalla</th>
+								<th>ZScoreIMC</th>
+								<th>RiesgoDesnutricion3Meses**</th>
 							</tr>
 						</tfoot>
 					</table>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -168,44 +214,94 @@
 {% block js %}
 
 <script>
-	
+
+function format ( d ) {
+	var rows = 	'<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+					'<tr>'+
+						'<td>IdBeneficiario:</td>'+
+						'<td>'+d.IdBeneficiario+'</td>'+
+					'</tr>'+
+					'<tr>'+
+						'<td>Nombre Completo:</td>'+
+						'<td>Undisclosed Name</td>'+
+					'</tr>'+
+					'<tr>'+
+						'<td>Dirección:</td>'+
+						'<td>'+d.Direccion+'</td>'+
+					'</tr>'+
+					'<tr>'+
+						'<td><strong>Reporte de seguimiento nutricional</strong></td>'+
+						'<td> <a class="btn btn-info" href="/seguimiento/'+d.IdBeneficiario+'" role="button">Imprimir</a> </td>'+
+					'</tr>'+
+				'</table>';
+
+	return rows
+};
+
 $(document).ready(function() {
 
-var table = $('#example').DataTable( {
-	scrollX:        true,
-	scrollCollapse: true,
-	fixedColumns:   {
-		leftColumns: 1,
-		rightColumns: 1
-	},
-	"pageLength": 100,
-	"ajax": {
-			"url": "/pruebaj/",
-			"type": "GET",
-			"dataType": "json",
-			"dataSrc": "data",
-			"contentType":"application/json"
+	var table = $('#example').DataTable( {
+		searching: false,
+		paging: false,
+		info: false,
+		scrollX:        true,
+		scrollCollapse: true,
+		fixedColumns:   {
+			leftColumns: 1,
+			rightColumns: 1
 		},
-		
-	"columns": [
-		{ "data": "IdBeneficiario" },
-		{ "data": "EdadMeses-0" },
-		{ "data": "Peso-1" },
-		{ "data": "Talla-1" },
-		{ "data": "ZScorePesoTalla-1" },
-		{ "data": "ZScoreIMC-1" },
-		{ "data": "RiesgoDesnutricion3Meses" }
-	],
+		"pageLength": 100,
+		"ajax": {
+				"url": "/pruebaj",
+				"type": "GET",
+				"dataType": "json",
+				"dataSrc": "data",
+				"contentType":"application/json"
+			},
+			
+		"columns": [
+			{ "className":      'details-control',
+				"orderable":      false,
+				"data":           null,
+				"defaultContent": ''
+			},
+			{ "data": "IdBeneficiario" },
+			{ "data": "EdadMeses" },
+			{ "data": "Peso" },
+			{ "data": "Talla" },
+			{ "data": "ZScorePesoTalla" },
+			{ "data": "ZScoreIMC" },
+			{ "data": "IdToma" }
+		],
 
 
-	"createdRow": function (row, data, dataIndex, cells) {
-		if (data.RiesgoDesnutricion3Meses > 0.5 && data.RiesgoDesnutricion3Meses <= 0.75) {
-			$(row).addClass('Highlight');
-		}
-		else if (data.RiesgoDesnutricion3Meses > 0.75) {
-			$(row).addClass('oHighlight');
-		}}
-} );
+		"createdRow": function (row, data, dataIndex, cells) {
+			if (data.ZscoreIMC < -0.5) {
+				$(row).addClass('Highlight');
+			}
+			else if (data.ZscoreIMC > 0.75) {
+				$(row).addClass('oHighlight');
+			}}
+	} );
+
+	$('#example tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+    if ( row.child.isShown() ) {
+         row.child.hide();
+         tr.removeClass('shown');     
+        }
+    else
+        {
+         if ( table.row( '.shown' ).length ) {
+                  $('.details-control', table.row( '.shown' ).node()).click();
+          }
+          row.child( format(row.data()) ).show();
+          tr.addClass('shown');
+     }
+	});
+
 });
 </script>
 

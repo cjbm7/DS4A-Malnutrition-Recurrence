@@ -37,48 +37,75 @@ layout = html.Div([
     #html.H4("Scatterplots - Dataset Variables", className="display-4"),
 	dbc.Card([
 	   #html.Div([
-		dbc.CardHeader([
-			html.Div([
-				dcc.Dropdown(
-					id='xaxis-column',
-					options=[{'label': i, 'value': i} for i in available_indicators],
-					value='Talla'
-				),
-				dbc.RadioItems(
-					className = "form-check-inline pr-10",
-					id='xaxis-type',
-					options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
-					value='Linear',
-					labelStyle={'display': 'inline-block'}
-				)
-			],style={'width': '20%', 'display': 'inline-block'}),
 
-			html.Div([
-				dcc.Dropdown(
-					id='yaxis-column',
-					options=[{'label': i, 'value': i} for i in available_indicators],
-					value='Peso'
-				),
-				dbc.RadioItems(
-					className = "form-check-inline",
-					id='yaxis-type',
-					options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
-					value='Linear',
-					labelStyle={'display': 'inline-block, padding-right: 10px;'}
-				)
-			],style={'width': '20%', 'display': 'inline-block'}),
-			
-			html.Div([
-				dcc.Dropdown(
-					id='cluster-column',
-					options=[{'label': i, 'value': i} for i in clusters],
-					value='ZScorePesoTalla'
-				)
-			],style={'width': '20%', 'display': 'inline-block'}),
-			
-			
-			
-		]),
+		
+		dbc.CardHeader([
+				dbc.Row(
+						[
+							dbc.Col(
+								[
+									dbc.FormGroup(
+												[
+													dbc.Label(html.B("X - Axis"), html_for="xaxis-column"),
+
+													dcc.Dropdown(
+																id='xaxis-column',
+																options=[{'label': i, 'value': i} for i in available_indicators],
+																value='Talla'
+															),
+													
+													dbc.RadioItems(
+																className = "form-check-inline pr-10",
+																id='xaxis-type',
+																options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
+																value='Linear',
+																labelStyle={'display': 'inline-block'}
+															),
+												]
+											)
+								], md=4),
+
+							dbc.Col(
+								[
+									dbc.FormGroup(
+												[
+													dbc.Label(html.B("Y - Axis"), html_for="yaxis-column"),
+
+													dcc.Dropdown(
+																id='yaxis-column',
+																options=[{'label': i, 'value': i} for i in available_indicators],
+																value='Peso'
+															),
+													
+													dbc.RadioItems(
+																className = "form-check-inline pr-10",
+																id='yaxis-type',
+																options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
+																value='Linear',
+																labelStyle={'display': 'inline-block'}
+															),
+												]
+											)
+
+								], md=4),
+							dbc.Col(
+								[
+
+									dbc.FormGroup(
+												[
+													dbc.Label(html.B("Cluster"), html_for="cluster-column"),
+
+													dcc.Dropdown(
+														id='cluster-column',
+														options=[{'label': i, 'value': i} for i in clusters],
+														value='ZScorePesoTalla'
+													)
+												]
+											)
+								], md=4),
+						]
+					),
+			]),
 		dbc.CardBody(
 			dcc.Graph(id='indicator-graphic', style={'width': '100%', 'display': 'inline-block'})
 		)
@@ -146,3 +173,51 @@ def update_graph(xaxis_column_name, yaxis_column_name,
     fig.update_yaxes(title=yaxis_column_name, 
                      type='linear' if yaxis_type == 'Linear' else 'log') 
 """
+
+
+
+
+'''
+dbc.CardHeader([
+	html.Div([
+		dcc.Dropdown(
+			id='xaxis-column',
+			options=[{'label': i, 'value': i} for i in available_indicators],
+			value='Talla'
+		),
+		dbc.RadioItems(
+			className = "form-check-inline pr-10",
+			id='xaxis-type',
+			options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
+			value='Linear',
+			labelStyle={'display': 'inline-block'}
+		)
+	],style={'width': '20%', 'display': 'inline-block'}),
+
+	html.Div([
+		dcc.Dropdown(
+			id='yaxis-column',
+			options=[{'label': i, 'value': i} for i in available_indicators],
+			value='Peso'
+		),
+		dbc.RadioItems(
+			className = "form-check-inline",
+			id='yaxis-type',
+			options=[{'label': i, 'value': i} for i in ['Linear', 'Log']],
+			value='Linear',
+			labelStyle={'display': 'inline-block, padding-right: 10px;'}
+		)
+	],style={'width': '20%', 'display': 'inline-block'}),
+	
+	html.Div([
+		dcc.Dropdown(
+			id='cluster-column',
+			options=[{'label': i, 'value': i} for i in clusters],
+			value='ZScorePesoTalla'
+		)
+	],style={'width': '20%', 'display': 'inline-block'}),
+	
+	
+	
+])
+'''

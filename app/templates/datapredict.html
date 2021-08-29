@@ -65,38 +65,38 @@
 	<div class="col-12">
 		<div class="card">
 		<div class="card-body">
-			<div class="row align-items-start">
-				<div class="col">
-					<label class="form-field__label">File ('example.csv'):    </label>
-				</div>
-				<div class="col">
-					
-				</div>
-				<div class="col">
+		  <form method="post" enctype="multipart/form-data" action="/predictor">
+			<div class="row align-items-center">
+				<div class="col-md-4">
+					<div class="form-group">
+					  <label>
+						File ('example.csv'):
+					  </label>
+					  <div class="custom-file">
+						<input type="file" name="data_file" class="custom-file-input" id="exampleInputFile">
+						<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+					  </div>
 
+					</div>
 				</div>
+				
+				<div class="col-md-4 align-items-end">
+							<div class="custom-file align-items-end">
+								<button type="submit" class="btn btn-outline-primary" value="generar">Run Predictor</button>
+							</div>
+				</div>
+		
+				<div class="col-md-4">
+					<input type="hidden" id="idt" value="{{idt}}">
+				</div>
+		
 			</div>
-			<form method="post" enctype="multipart/form-data" action="/predictor">
-				<div class="row align-items-start">
-					<div class="col">
-						<div class="custom-file">
-							<input type="file" name="data_file" class="custom-file-input" id="exampleInputFile">
-							<label class="custom-file-label" for="exampleInputFile">Choose file</label>
-						</div>
-					</div>
-					<div class="col">
-						<button type="submit" class="btn btn-outline-primary" value="generar">Run Predictor</button>
-					</div>
-					<div class="col">
-						<input type="hidden" id="idt" value="{{idt}}">
-					</div>
-				</div>
-			</form>
+		  </form>	
 		
 		</div>
 	</div>
-    </div>
-	</div>
+   </div>
+  </div>
 	
 	<div class="row">
 	<div class="col-12">
