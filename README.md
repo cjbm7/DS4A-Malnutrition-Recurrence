@@ -25,7 +25,7 @@ DASH
 - heat maps: cambiar nombre de variables 
 - box plots: poner colores
 - incluir las gráficas restantes 
-- actualizar origen de datos (acrchivos nuevos .parquet)
+- ~~actualizar origen de datos (acrchivos nuevos .parquet)~~
 /dash/scatter
 /dash/maps
 /dash/boxplots
@@ -42,10 +42,10 @@ PREDICTOR
 - Al obtener resultados del predictor, esconder la explicación y mostrar el datatable.
 
 SEGUIMIENTO NUTRICIONAL
-- Ajustar las llaves del diccionario con los nombres de la columnas del nuevo dataset(join de tomas_500)
-- información de la predicción al pie del documento (no dispnible actualmente)
+- ~~Ajustar las llaves del diccionario con los nombres de la columnas del nuevo dataset(join de tomas_500)~~
+- ~~información de la predicción al pie del documento (no dispnible actualmente)~~(parcial)
 - Generar la gráfica de seguimiento e integrar a la vista con iFrame
-- hora de generación del documento (debajo de NIUP)
+- ~~hora de generación del documento (debajo de NIUP)~~
 
 MISC
 - ~~Poner los datos(.db y .parquet) en una sola carpeta, puede ser data en la raíz del proyecto, hacer los respectivos cambios en el código~~ (parcial)

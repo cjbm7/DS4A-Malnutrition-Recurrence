@@ -15,7 +15,6 @@ dashapp = Dash( __name__,
                 server=app,
                 external_stylesheets=[dbc.themes.BOOTSTRAP],
                 routes_pathname_prefix='/dash/'
-                #url_base_pathname='/dash/'
 )
 dashapp.config.suppress_callback_exceptions = True 
 dashapp.title = 'DS4A - Team 12'

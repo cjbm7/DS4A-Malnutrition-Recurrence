@@ -147,3 +147,12 @@ def nutrition_monitoring_plot(IdBeneficiario, dataset, points, lang):
                             hoverinfo = 'none', showlegend=False,
                             line=dict(color=color_palette[abs(z)], width=1)))
   return fig
+
+
+
+
+def pred_risk(prediction):
+  if prediction > 0.75 : return 'Very high'
+  elif prediction > 0.49 : return 'High'
+  elif prediction > 0.30 : return 'Moderate'
+  else: return 'Low'

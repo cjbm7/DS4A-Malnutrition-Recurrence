@@ -1,5 +1,6 @@
 import os
 import time
+import datetime
 from app import app
 from flask import json, render_template, request, url_for, redirect, send_from_directory, jsonify
 from .logger import *
@@ -7,13 +8,10 @@ import json
 import pandas as pd
 import sqlite3
 import duckdb
-from .utils import predict_set, clf
-from .misc import contacts, dptos
+from .utils import predict_set, clf, pred_risk
+from .misc import contacts, dptos, cols
 from data import *
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-#ben_pq = os.path.join(basedir, 'db','datos_beneficiario.parquet')
 
 from nanoid import generate   #Genera el id de la predicción
 def uidg(largo=7):
@@ -24,10 +22,9 @@ def uidg(largo=7):
 def inicio():
     context = {
         'pagina': 'DS4a Final Project - Recurrence of malnutrition in Colombia: Analysis and prediction of associated risk factors',
+        'all_contacts': contacts
         }
-    
-    #return redirect(url_for('data_predict'))  #temporal
-    return render_template('index.html', **context, all_contacts=contacts)
+    return render_template('index.html', **context)#, all_contacts=contacts)
 
 
 @app.route('/data_predict', methods=['GET', 'POST'])  #Página del predictor
@@ -51,6 +48,9 @@ def regional():
 
 @app.route('/municipios/<dpto>')
 def mpios(dpto):
+  con = duckdb.connect()    #Inicialización de Duckdb para hacer query sobre un .parquet
+  con.execute("PRAGMA threads=2")
+  con.execute("PRAGMA enable_object_cache")
   query = f"SELECT cod_mpio, nom_mpio FROM '{dpto_mpio}' WHERE cod_dpto = {dpto} ORDER by nom_mpio"
   mpios = con.execute(query).fetchall()
   if mpios:
@@ -64,9 +64,6 @@ def mpios(dpto):
     return jsonify(data)
   else:
     return {}
-
-
-
 
 
 @app.route('/splots')   #Pagina del Scatter plot dinámico( es un iFrame, el original está en /dash/scatter)
@@ -84,14 +81,13 @@ def sociomaps():
         }
     return render_template('sociomaps.html', **context)
 
+
 @app.route('/boxplots')   #Pagina del box plot dinámico( es un iFrame, el original está en /dash/box plots)
 def boxplots():
     context = {
         'pagina': 'Box Plots$',
         }
     return render_template('boxplots.html', **context)
-
-
 
 
 @app.route('/predictor', methods=['POST']) #Es un endpoint que procesa la predición, retorna a la vista de prediccion con la ID
@@ -103,13 +99,10 @@ def predictor():
     if ext == 'csv':
         df = pd.read_csv(f)
     else: return {}
-    #En esta linea ejecutar la funcion de predicción
     df = predict_set(df, clf)
-    #df[predict] = ...
     df.fillna("", inplace=True)
     print(df.head())
     pre_dict=df.to_dict(orient="records")
-    print(f'********************\n{pre_dict}\n**********************')
     data = {"data": pre_dict}
     idt = uidg(5)
     try:
@@ -126,6 +119,8 @@ def predictor():
 
 @app.route('/pjson/<idt>')  # Es un endpoint que genera el Json de la predicción para mostrar en el datatable
 def resp_json(idt):
+    if idt == '':
+      return {}
     conn = sqlite3.connect(dbase)
     cursor = conn.cursor()
     pjson = cursor.execute(f"select pjson from predicts where id ='{idt}'").fetchone()
@@ -133,48 +128,39 @@ def resp_json(idt):
     pjson = json.loads(pjson[0])
     return pjson
 
- 
-con = duckdb.connect()    #Inicialización de Duckdb para hacer query sobre un .parquet
-con.execute("PRAGMA threads=2")
-con.execute("PRAGMA enable_object_cache")
 
 @app.route('/seguimiento/<idBeneficiario>')  #Vista de seguimiento nutricional
 def seg_nutricional(idBeneficiario):
-    names = ['IdToma', 'Registro', 'Vigencia', 'Toma', 'Servicio',
-       'FechaValoracionNutricional', 'EdadMeses',
-       'FechaMedicionPerimetroBraquial', 'MedicionPerimetroBraquial', 'Peso',
-       'Talla', 'ZScoreTallaEdad', 'ZScorePesoEdad', 'ZScorePesoTalla',
-       'ZScoreIMC', 'EstadoTallaEdad', 'EstadoPesoEdad', 'EstadoPesoTalla',
-       'EstadoIMC', 'Flag', 'FechaRegistroSaludNutricion',
-       'PresentaCarneVacunacion', 'ControlesCrecimDesarrollo',
-       'AntecedentePremadurez', 'Direccion', 'IdBeneficiario', 'Id', 'FechaNacimiento', 'Sexo']
+    col_query = ', '.join(cols)
     try:
         inicio = time.time()
-        query = f"SELECT * FROM '{tomas_pq}' WHERE IdBeneficiario = {idBeneficiario} ORDER by Toma DESC"
+        con = duckdb.connect()    #Inicialización de Duckdb para hacer query sobre un .parquet
+        con.execute("PRAGMA threads=2")
+        con.execute("PRAGMA enable_object_cache")
+        query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE IdBeneficiario = {idBeneficiario} ORDER by Toma DESC"
         ben = con.execute(query).fetchone()
         print(ben)
-        zip_iter = zip(names, ben)
+        zip_iter = zip(cols, ben)
         context = dict(zip_iter)
         print(context)
         fin= time.time()
         print(f'//////////////// tiempo total: {fin-inicio}s\\\\\\\\\\\\\\')
     except:
         return 'Error al conectar tomas.parquet'
-
+    context['Prediction'] = 0.30
     context['FechaValoracionNutricional'] = context['FechaValoracionNutricional'].strftime('%Y-%m-%d')
-    """
-    try:
-        query = f"SELECT FechaNacimiento, Sexo FROM '{ben_pq}' WHERE IdBeneficiario = {idBeneficiario} ORDER by Vigencia DESC"
-        nacimiento, sexo = con.execute(query).fetchone()
-    except:
-        nacimiento, sexo = False
-    """
-    """genero = {'M': 'Masculino', 'F': 'Femenino', 'I': 'Intersexual'}
-    if context['Sexo']: context['Sexo'] = genero[context['Sexo']]
-    else: context['Sexo'] = 'Undisclosed' """
-    
-    if context['FechaNacimiento']: context['Nacimiento'] = context['FechaNacimiento'].strftime('%Y-%m-%d')
+    if context['FechaNacimiento']: context['FechaNacimiento'] = context['FechaNacimiento'].strftime('%Y-%m-%d')
     else: context['Nacimiento'] = 'Undisclosed'
+    try:
+      risk = pred_risk(context['Prediction'])
+      context['Prediction'] = str (context['Prediction'] * 100) + '% - ' + risk
+    except:
+      context['Prediction'] = 'N.D.'
+    
+
+    datetim = datetime.datetime.now()
+    context['Datetime'] = datetim.strftime('%Y-%m-%d, %H:%M')
+    #return jsonify(context)
     return render_template('fichanutricional.html', **context)
 
 
