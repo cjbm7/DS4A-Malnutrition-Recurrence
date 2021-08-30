@@ -16,12 +16,12 @@ Para terminar, CTRL + C
 ** PENDIENTES **
 
 PAGINA DE INICIO:
-- Landing page con información descriptiva del proyecto
-- Perfiles de participantes
+- ~~Landing page con información descriptiva del proyecto~~
+- ~~Perfiles de participantes~~
 - Enlaces a las vistas más importantes
 
 DASH
-- scatterplot: mejorar los controles, hacer contenido responsive
+- ~~scatterplot: mejorar los controles, hacer contenido responsive~~
 - heat maps: cambiar nombre de variables 
 - box plots: poner colores
 - incluir las gráficas restantes 
@@ -31,7 +31,7 @@ DASH
 /dash/boxplots
 
 REGIONAL(nombre sujeto a cambio)
-- Hacer grafica dinámica, callbacks por URL,
+- ~~Hacer grafica dinámica, callbacks por URL,~~
 - Definir las métricas a mostrar en la vista
 - Generar Json con datos de individuos para el datatable
 - Generar la grafica de seguimiento nutricional en un modal
@@ -48,7 +48,7 @@ SEGUIMIENTO NUTRICIONAL
 - hora de generación del documento (debajo de NIUP)
 
 MISC
-- Poner los datos(.db y .parquet) en una sola carpeta, puede ser data en la raíz del proyecto, hacer los respectivos cambios en el código
+- ~~Poner los datos(.db y .parquet) en una sola carpeta, puede ser data en la raíz del proyecto, hacer los respectivos cambios en el código~~ (parcial)
 
 API (futuro)
 - Crear funcion que reciba datos en formato JSON, convertirlo en DF, validarlos y procesarlos en la funcion utils.py

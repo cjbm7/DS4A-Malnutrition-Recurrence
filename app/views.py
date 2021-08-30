@@ -8,12 +8,12 @@ import pandas as pd
 import sqlite3
 import duckdb
 from .utils import predict_set, clf
+from .misc import contacts, dptos
+from data import *
 
 basedir = os.path.abspath(os.path.dirname(__file__))
-dbase = os.path.join(basedir, 'db','predictions.db')
-tomas_pq = os.path.join(basedir, 'db','tomas_max_500.parquet')
-ben_pq = os.path.join(basedir, 'db','datos_beneficiario.parquet')
 
+#ben_pq = os.path.join(basedir, 'db','datos_beneficiario.parquet')
 
 from nanoid import generate   #Genera el id de la predicción
 def uidg(largo=7):
@@ -25,27 +25,7 @@ def inicio():
     context = {
         'pagina': 'DS4a Final Project - Recurrence of malnutrition in Colombia: Analysis and prediction of associated risk factors',
         }
-    contacts = {1 : {'name': "Abraham Guerrero", 'title': "test2", 
-              'About': 'test2', "foto":'img/abraham.png',
-              'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/'},
-              2: {'name': "Carlos Ballesteros", 'title': "test2", 
-              'About': 'test2', "foto":'img/carlos.png',
-              'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/'},
-              3: {'name': "Edwar Nieves", 'title': "test2", 
-              'About': 'test2', "foto":'img/edwar.png',
-              'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/'},
-              4: {'name': "Camilo Dorado", 'title': "test2", 
-              'About': 'test2', "foto":'img/camilo.png',
-              'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/'},
-              5: {'name': "Giovanni Castellanos", 'title': "Professional", 
-              'About': 'Environmental Engineer', "foto":'img/giovanni.png',
-              'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/'},
-              6: {'name': "Javier Herrera", 'title': "test2", 
-              'About': 'test2', "foto":'img/javier.png',
-              'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/'},
-              7: {'name': "Miller Andrés Ruiz", 'title': "test2", 
-              'About': 'test2', "foto":'img/miller.png',
-              'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/'}}
+    
     #return redirect(url_for('data_predict'))  #temporal
     return render_template('index.html', **context, all_contacts=contacts)
 
@@ -64,8 +44,29 @@ def data_predict(id=None):
 def regional():
     context = {
         'pagina': 'Regional$',
+        'dptos': dptos
         }
     return render_template('regional.html', **context)
+
+
+@app.route('/municipios/<dpto>')
+def mpios(dpto):
+  query = f"SELECT cod_mpio, nom_mpio FROM '{dpto_mpio}' WHERE cod_dpto = {dpto} ORDER by nom_mpio"
+  mpios = con.execute(query).fetchall()
+  if mpios:
+    lista = []
+    for row in mpios:
+      mpio = {}
+      mpio['cod'] = row[0]
+      mpio['nom'] = row[1]
+      lista.append(mpio)
+    data = {"data": lista}
+    return jsonify(data)
+  else:
+    return {}
+
+
+
 
 
 @app.route('/splots')   #Pagina del Scatter plot dinámico( es un iFrame, el original está en /dash/scatter)

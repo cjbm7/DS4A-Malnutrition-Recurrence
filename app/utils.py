@@ -2,12 +2,9 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
-
 import plotly.express as px
 import plotly.graph_objects as go
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-modelpk = os.path.join(basedir, 'db','CD_his_RF3.pickle')
+from data import modelpk
 
 clf = joblib.load(modelpk)
 

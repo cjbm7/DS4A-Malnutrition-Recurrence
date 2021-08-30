@@ -78,15 +78,11 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Departamento</label>
-									<select class="form-control select2" style="width: 100%;">
-									<option selected="selected">Todos</option>
-									<option>Bogotá D.C.</option>
-									<option>Antioquia</option>
-									<option>Atlántico</option>
-									<option>Amazonas</option>
-									<option>Arauca</option>
-									<option>Bolívar</option>
-									<option>Boyacá</option>
+									<select class="form-control select2" id="dpto" style="width: 100%;" onchange="pdpto()">
+									<option value="all" selected>All</option>
+									{% for key, value in dptos.items() %}
+									<option value={{key}}>{{value}}</option>
+									{% endfor%}
 									</select>
 								</div>
 							</div>
@@ -94,15 +90,8 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Municipio</label>
-									<select class="form-control select2" style="width: 100%;">
-									  <option selected="selected">Todos</option>
-									  <option>Bogotá D.C.</option>
-									  <option>Antioquia</option>
-									  <option>Atlántico</option>
-									  <option>Amazonas</option>
-									  <option>Arauca</option>
-									  <option>Bolívar</option>
-									  <option>Boyacá</option>
+									<select id="mpio" class="form-control select2" style="width: 100%;" onchange="pmpio()">
+										<option value="all" selected>All</option>
 									</select>
 								</div>
 							</div>
@@ -167,7 +156,7 @@
 
 
 					<div class="embed-responsive embed-responsive-1by1" style="min-height: 300px; max-height: 480px;">
-						<iframe class="embed-responsive-item" src="/dash/maps" ></iframe>
+						<iframe id="map" class="embed-responsive-item" src="/dash/col/all/all" ></iframe>
 					  </div>
 
 				</div>
@@ -214,6 +203,45 @@
 {% block js %}
 
 <script>
+
+function pdpto(){
+	if (dpto.value != 'all'){
+		ajax_mpios()
+	}
+	map()
+	// otras funciones
+}
+
+function pmpio(){
+	map()
+	// otras funciones
+}
+
+function map(){
+	var source='/dash/col/'+ dpto.value + '/' + mpio.value;
+	console.log(source)
+	$('#map').attr('src', source);
+}
+
+function ajax_mpios(){  // Trae los valores de patólogos y los pone en el select
+            var element = document.getElementById('dpto');
+            $.ajax({
+                type: 'GET',
+                url:'/municipios/'+dpto.value,
+                success: function(response){
+                    resp = response.data
+					$('#mpio').empty();
+                    $('#mpio').append('<option value="all" selected>All</option>')
+                    $.each(resp,function(){
+                        $('#mpio').append('<option value="'+ this.cod +'">'+ this.nom +'</option>')
+                    })
+					map()
+                }
+            })
+        }
+
+
+
 
 function format ( d ) {
 	var rows = 	'<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
