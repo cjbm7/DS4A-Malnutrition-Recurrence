@@ -17,7 +17,7 @@ def report(idBen):
         con = duckdb.connect()    #Inicialización de Duckdb para hacer query sobre un .parquet
         con.execute("PRAGMA threads=2")
         con.execute("PRAGMA enable_object_cache")
-        query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE IdBeneficiario = {idBen}"
+        query = f"SELECT * FROM '{tomas_pq}' WHERE IdBeneficiario = {idBen}"
         ben_df = con.execute(query).df()
         print(ben_df)
     except:

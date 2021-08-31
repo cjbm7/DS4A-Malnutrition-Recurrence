@@ -3,23 +3,19 @@
 
 {% block head %}
   	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
-
     <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
     <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
-	<script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js"></script>
-	<link href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css" />
-  
 
   <style type="text/css" class="init">
+
 	td.details-control {
         background: url('{{ url_for('static', filename='img/details_open.png') }}') no-repeat center center;
         cursor: pointer;
     }
+
     tr.shown td.details-control {
         background: url('{{ url_for('static', filename='img/details_close.png') }}') no-repeat center center;
     }
@@ -56,7 +52,6 @@
 	
   </style>
    
-
 
 {% endblock %}
 
@@ -170,6 +165,7 @@
 							<tr>
 								<th></th>
 								<th>IdBeneficiario</th>
+								<th>Municipio</th>
 								<th>EdadMeses</th>
 								<th>Peso</th>
 								<th>Talla</th>
@@ -183,6 +179,7 @@
 								<th></th>
 								<th>IdBeneficiario</th>
 								<th>EdadMeses</th>
+								<th>Municipio</th>
 								<th>Peso</th>
 								<th>Talla</th>
 								<th>ZScorePesoTalla</th>
@@ -204,17 +201,21 @@
 
 <script>
 
+function clean_mpio(){
+	$('#mpio').empty();
+    $('#mpio').append('<option value="all" selected>All</option>')
+}
+
 function pdpto(){
+	clean_mpio()
 	if (dpto.value != 'all'){
 		ajax_mpios()
 	}
 	map()
-	// otras funciones
 }
 
 function pmpio(){
 	map()
-	// otras funciones
 }
 
 function map(){
@@ -223,22 +224,19 @@ function map(){
 	$('#map').attr('src', source);
 }
 
-function ajax_mpios(){  // Trae los valores de patólogos y los pone en el select
-            var element = document.getElementById('dpto');
-            $.ajax({
-                type: 'GET',
-                url:'/municipios/'+dpto.value,
-                success: function(response){
-                    resp = response.data
-					$('#mpio').empty();
-                    $('#mpio').append('<option value="all" selected>All</option>')
-                    $.each(resp,function(){
-                        $('#mpio').append('<option value="'+ this.cod +'">'+ this.nom +'</option>')
-                    })
-					map()
-                }
-            })
-        }
+function ajax_mpios(){ 
+	var element = document.getElementById('dpto');
+	$.ajax({
+		type: 'GET',
+		url:'/municipios/'+dpto.value,
+		success: function(response){
+			resp = response.data
+			$.each(resp,function(){
+				$('#mpio').append('<option value="'+ this.cod +'">'+ this.nom +'</option>')
+			})
+		}
+	})
+}
 
 
 
@@ -280,13 +278,10 @@ $(document).ready(function() {
 		},
 		"pageLength": 100,
 		"ajax": {
-				"url": "/pruebaj",
-				"type": "GET",
-				"dataType": "json",
+				"url": "/data_json/" + dpto.value + '/' + mpio.value,
+				"type": "POST",
 				"dataSrc": "data",
-				"contentType":"application/json"
 			},
-			
 		"columns": [
 			{ "className":      'details-control',
 				"orderable":      false,
@@ -294,15 +289,17 @@ $(document).ready(function() {
 				"defaultContent": ''
 			},
 			{ "data": "IdBeneficiario" },
+			{ "data": "nom_mpio" },
 			{ "data": "EdadMeses" },
 			{ "data": "Peso" },
 			{ "data": "Talla" },
 			{ "data": "ZScorePesoTalla" },
 			{ "data": "ZScoreIMC" },
-			{ "data": "IdToma" }
+			{ "data": "ZScoreTallaEdad" }
 		],
-
-
+		"columnDefs": [
+				{"className": "dt-center", "targets": "_all"}
+			],
 		"createdRow": function (row, data, dataIndex, cells) {
 			if (data.ZscoreIMC < -0.5) {
 				$(row).addClass('Highlight');
@@ -311,6 +308,15 @@ $(document).ready(function() {
 				$(row).addClass('oHighlight');
 			}}
 	} );
+
+	$('#dpto').change(function() {
+        table.ajax.url("/data_json/" + dpto.value + '/' + mpio.value).load();
+    });
+
+	$('#mpio').change(function() {
+        table.ajax.url("/data_json/" + dpto.value + '/' + mpio.value).load();
+    });
+
 
 	$('#example tbody').on('click', 'td.details-control', function () {
         var tr = $(this).closest('tr');
@@ -332,7 +338,5 @@ $(document).ready(function() {
 
 });
 </script>
-
-
 
 {% endblock %}
