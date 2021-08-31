@@ -52,4 +52,21 @@ ALTER TABLE predicts ADD COLUMN tbsp
 \
 ALTER TABLE predicts ADD COLUMN tmsp;\
 UPDATE predicts SET tmsp = CURRENT_TIMESTAMP;\
+
+
+
+Current db schema\
+
+CREATE TABLE predicts (\
+id varchar(8),\
+pjson json,\
+cant INTEGER,\
+Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP\
+);\
+
+
+
+
+https://gist.githubusercontent.com/john-guerra/43c7656821069d00dcbc/raw/be6a6e239cd5b5b803c6e7c2ec405b793a9064dd/Colombia.geo.json
+
 }

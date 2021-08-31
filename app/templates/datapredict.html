@@ -39,6 +39,13 @@
 		padding-left: 4em;
 	}
 	
+
+	.google-plus-1{
+		fill:#dc4e41;
+	}
+	.change-opacity-svg:hover{
+		opacity:0.6;
+	}
   </style>
    
 
@@ -50,162 +57,169 @@
 
 <div class="container-fluid">
 	<div class="row">
-	<div class="col-md-8">
-		<div class="card">
-		<div class="card-header">
-			Predict by new dataset
-		</div>
-		<div class="card-body">
-		  <form method="post" enctype="multipart/form-data" action="/predictor">
-			<div class="row align-items-center">
-				<div class="col-md-4">
-					<div class="form-group">
-					  <label>
-						File ('example.csv'):
-					  </label>
-					  <div class="custom-file">
-						<input type="file" name="data_file" class="custom-file-input" id="exampleInputFile">
-						<label class="custom-file-label" for="exampleInputFile">Choose file</label>
-					  </div>
+
+		<div class="col-md-8">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">New Prediction</h3>
+				</div>
+				<div class="card-body">
+					<div class="row">
+
+						<div class="col-md-6">
+							<form method="post" enctype="multipart/form-data" action="/predictor">
+								<div class="form-group">
+									
+									<label for="exampleInputEmail1">
+										File ('dataset.csv')
+									</label>
+									<div class="custom-file">
+										<input type="file" name="data_file" class="custom-file-input" id="exampleInputFile" required>
+										<label class="custom-file-label" for="exampleInputFile">Choose file</label>
+										<input type="hidden" id="idt" value="{{idt}}">
+									</div>
+								</div>
+
+								<button type="submit" class="btn btn-outline-primary" value="generar">
+									Run Predictor
+								</button>
+							</form>
+						</div>
+
+						<div class="col-md-6">
+							<dl>
+								<dt>
+									Empty Template
+								</dt>
+								<dd>
+									The empty template contains the required data. Download here.
+								</dd>
+								<dt>
+									Test dataset
+								</dt>
+								<dd>
+									For testing purposes you can download a populated file here.
+								</dd>
+							</dl>
+						</div>
 
 					</div>
 				</div>
-				
-				<div class="col-md-4 align-items-end">
-							<div class="custom-file align-items-end">
-								<button type="submit" class="btn btn-outline-primary" value="generar">Run Predictor</button>
-							</div>
-				</div>
-		
-				<div class="col-md-4">
-					<input type="hidden" id="idt" value="{{idt}}">
-				</div>
-		
 			</div>
-		  </form>	
-		
+		</div>
+
+		<!-- tabla otras predicts -->
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-header">
+				<h3 class="card-title">Latest predictions</h3>
+				</div>
+				<!-- /.card-header -->
+				<div class="card-body p-0">
+				<table class="table table-sm table-striped">
+					<thead>
+					<tr>
+						<th style="width: 10px">#</th>
+						<th>Pred. Id.</th>
+						<th>Date</th>
+						<th style="width: 40px">Rows</th>
+					</tr>
+					</thead>
+					<tbody>
+					{% for item in latest %}
+					<tr>
+						<td>{{loop.index}}.</td>
+						<td><a href="/data_predict?id={{item[0]}}">{{item[0]}}</a></td>
+						{% set date = item[2].split('.') %}
+						<td>{{date[0]}}</td>
+						<td><span class="badge bg-primary">{{item[1]}}</span></td>
+					</tr>
+					{% endfor %}
+
+
+
+					</tbody>
+				</table>
+				</div>
+				<!-- /.card-body -->
+			</div>
+		</div>
+
+	</div>
+	
+	
+	
+	
+	{% if idt == None %}
+	<hr>
+
+	<div class="row d-flex justify-content-center">
+		<div class="col-md-12 d-flex justify-content-center">
+			<div class="change-opacity-svg">
+			<img alt="AI" src="{{ url_for('static',filename='img/ai.svg')}}" />
+
+			</div>
 		</div>
 	</div>
-   </div>
-   <div class="col-md-4">
-	<div class="card">
-		<div class="card-header">
-		  <h3 class="card-title">Striped Full Width Table</h3>
-		</div>
-		<!-- /.card-header -->
-		<div class="card-body p-0">
-		  <table class="table table-striped">
-			<thead>
-			  <tr>
-				<th style="width: 10px">#</th>
-				<th>Task</th>
-				<th>Progress</th>
-				<th style="width: 40px">Label</th>
-			  </tr>
-			</thead>
-			<tbody>
-			  <tr>
-				<td>1.</td>
-				<td>Update software</td>
-				<td>
-				  <div class="progress progress-xs">
-					<div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-				  </div>
-				</td>
-				<td><span class="badge bg-danger">55%</span></td>
-			  </tr>
-			  <tr>
-				<td>2.</td>
-				<td>Clean database</td>
-				<td>
-				  <div class="progress progress-xs">
-					<div class="progress-bar bg-warning" style="width: 70%"></div>
-				  </div>
-				</td>
-				<td><span class="badge bg-warning">70%</span></td>
-			  </tr>
-			  <tr>
-				<td>3.</td>
-				<td>Cron job running</td>
-				<td>
-				  <div class="progress progress-xs progress-striped active">
-					<div class="progress-bar bg-primary" style="width: 30%"></div>
-				  </div>
-				</td>
-				<td><span class="badge bg-primary">30%</span></td>
-			  </tr>
-			  <tr>
-				<td>4.</td>
-				<td>Fix and squish bugs</td>
-				<td>
-				  <div class="progress progress-xs progress-striped active">
-					<div class="progress-bar bg-success" style="width: 90%"></div>
-				  </div>
-				</td>
-				<td><span class="badge bg-success">90%</span></td>
-			  </tr>
-			</tbody>
-		  </table>
-		</div>
-		<!-- /.card-body -->
-	  </div>
-   </div>
-  </div>
 
+	
+	{% endif %}
+	
 
-{% if idt != None %}
+	{% if idt != None %}
+	<hr>
 
-<div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-header">
-				<div class="row align-items-start">
-					<center><h4>Predictor results</h4></center>
-				</div>
-			</div>
-			<!-- /.card-header -->
-			<div class="card-body">
-				
-					<div class="row">
-						<div class="col-12">
-							<table id="example" class="display" style="width:100%">
-								<thead>
-									<tr>
-										<th>IdBeneficiario</th>
-										<th>EdadMeses</th>
-										<th>Peso</th>
-										<th>Talla</th>
-										<th>ZScorePesoTalla</th>
-										<th>ZScoreIMC</th>	
-										<th>RiesgoDesnutricion3Meses</th>									
-									</tr>
-								</thead>
-								<tfoot>
-									<tr>
-										<th>IdBeneficiario</th>
-										<th>EdadMeses</th>
-										<th>Peso</th>
-										<th>Talla</th>
-										<th>ZScorePesoTalla</th>
-										<th>ZScoreIMC</th>	
-										<th>RiesgoDesnutricion3Meses</th>										
-									</tr>
-								</tfoot>
-							</table>
-						
-						</div>
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<div class="row align-items-start">
+						<center><h4>Predictor results</h4></center>
 					</div>
-				
+				</div>
+				<!-- /.card-header -->
+				<div class="card-body">
+					
+						<div class="row">
+							<div class="col-12">
+								<table id="example" class="display" style="width:100%">
+									<thead>
+										<tr>
+											<th>IdBeneficiario</th>
+											<th>EdadMeses</th>
+											<th>Peso</th>
+											<th>Talla</th>
+											<th>ZScorePesoTalla</th>
+											<th>ZScoreIMC</th>	
+											<th>RiesgoDesnutricion3Meses</th>									
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>IdBeneficiario</th>
+											<th>EdadMeses</th>
+											<th>Peso</th>
+											<th>Talla</th>
+											<th>ZScorePesoTalla</th>
+											<th>ZScoreIMC</th>	
+											<th>RiesgoDesnutricion3Meses</th>										
+										</tr>
+									</tfoot>
+								</table>
+							
+							</div>
+						</div>
+					
+				</div>
+				<!-- /.card-body -->
 			</div>
-			<!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-    </div>
-</div>
+			<!-- /.card -->
+		</div>
+	</div>
 
 {% endif %}
 
-<!-- /.row -->
+
 </div>
 
 {% endblock %}

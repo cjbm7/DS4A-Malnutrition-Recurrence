@@ -2,9 +2,11 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
+import sqlite3
 import plotly.express as px
 import plotly.graph_objects as go
 from data import modelpk
+from data import dbase
 
 clf = joblib.load(modelpk)
 
@@ -149,10 +151,17 @@ def nutrition_monitoring_plot(IdBeneficiario, dataset, points, lang):
   return fig
 
 
-
-
 def pred_risk(prediction):
   if prediction > 0.75 : return 'Very high'
   elif prediction > 0.49 : return 'High'
   elif prediction > 0.30 : return 'Moderate'
   else: return 'Low'
+
+
+def latest_pred():
+  conn = sqlite3.connect(dbase)
+  cursor = conn.cursor()
+  query = f"SELECT id, cant, Timestamp FROM predicts ORDER by Timestamp DESC Limit 4"
+  predicts = cursor.execute(query).fetchall()
+  conn.close()
+  return predicts

@@ -8,7 +8,7 @@ import json
 import pandas as pd
 import sqlite3
 import duckdb
-from .utils import predict_set, clf, pred_risk
+from .utils import predict_set, clf, pred_risk, latest_pred
 from .misc import contacts, dptos, cols
 from data import *
 
@@ -30,9 +30,12 @@ def inicio():
 @app.route('/data_predict', methods=['GET', 'POST'])  #Página del predictor
 def data_predict(id=None):
     id = request.args.get("id", None)
+    latest = latest_pred()
+    print(latest)
     context = {
     'pagina': 'Recurrence Predictor',
-	  'idt': id,
+	'idt': id,
+    'latest': latest
     }
     return render_template('datapredict.html', **context)
 
@@ -44,6 +47,7 @@ def regional():
         'dptos': dptos
         }
     return render_template('regional.html', **context)
+
 
 
 @app.route('/municipios/<dpto>')
@@ -102,6 +106,7 @@ def predictor():
     df = predict_set(df, clf)
     df.fillna("", inplace=True)
     print(df.head())
+    cant = len(df)
     pre_dict=df.to_dict(orient="records")
     data = {"data": pre_dict}
     idt = uidg(5)
@@ -109,7 +114,7 @@ def predictor():
         conn = sqlite3.connect(dbase)  #Guarda la predicción en un base de datos sqlite
         cursor = conn.cursor()
         idt = uidg(5)
-        cursor.execute("insert into predicts values (?, ?)", [idt, json.dumps(data)])
+        cursor.execute("insert into predicts (id, pjson, cant) values (?, ?, ?)", [idt, json.dumps(data), cant])
         conn.commit()
         conn.close()
     except:
