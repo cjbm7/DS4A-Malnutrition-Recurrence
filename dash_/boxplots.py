@@ -27,16 +27,18 @@ fin = time.time()
 print(f"Tiempo de ejecucion: {fin-inicio}")
 
 layout = html.Div([
-    html.H4("Boxplot - Dataset Variables", className="display-4"),
+    #html.H4("Boxplot - Dataset Variables", className="display-4"),
 	dbc.Card([
 	   #html.Div([
 		dbc.CardHeader([
 			html.Div([
+				dbc.FormGroup([dbc.Label(html.B("Variable:"), html_for="xaxis-column"),
 				dcc.Dropdown(
 					id='xaxis-column',
 					options=[{'label': i, 'value': i} for i in available_indicators],
 					value='Sexo'
 				)
+				])
 			],style={'width': '48%', 'display': 'inline-block'}),
 		]),
 		dbc.CardBody(
@@ -59,7 +61,7 @@ def update_graph(x):
 		fig = px.box(data_frame=dt_Grupo, x= x, y='ZScorePesoTallaT1')
 
 	fig.update_layout(
-		title=f'G{x} - Zscore',
+		title=f'{x} - Zscore',
 		yaxis=dict(
 			autorange=True,
 			gridwidth=0.5

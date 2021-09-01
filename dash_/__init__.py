@@ -8,6 +8,7 @@ from app import dashapp
 import dash_.scatter, dash_.map, dash_.boxplots, dash_.report
 from .region import update_g
 from .report import report
+from .map import alt_map
 CONTENT_STYLE = {
 }
 
@@ -37,6 +38,11 @@ def render_page_content(pathname):
         url_ = pathnm.split('/')
         idBen = url_[3]
         return report(idBen)
+
+    elif pathnm.startswith('/dash/maps'):
+        url_ = pathnm.split('/')
+        tipo= url_[3]
+        return alt_map()
 
     return dbc.Jumbotron(
         [

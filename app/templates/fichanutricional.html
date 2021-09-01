@@ -236,9 +236,17 @@
 
 <!-- Ac� ir�a la gr�fica -->
    <div>
-   <td width="30%"><img style="max-width: 100%;" src={{ url_for('static',filename='img/EjemploTableroEvolucion.png')}} alt="Instituto Colombiano de Bienestar Familiar" /></td>
-   
-   
+     <table>
+       <tr>
+         <td width="10%"></td>
+         <td width="80%">
+          <div style="min-height: 300px; max-height: 780px;">
+            <iframe id="map" src="/dash/nut/{{IdBeneficiario}}" width="760" height="350"></iframe>
+          </div>
+         </td>
+         <td width="10%"></td>
+       </tr>
+     </table>
    </div>
 
 <!-- Riesgo nutricional -->

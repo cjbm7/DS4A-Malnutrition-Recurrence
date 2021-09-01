@@ -14,10 +14,10 @@ import numpy as np
 
 # New function
 cols_model = {
-    clf3: ['EdadMeses',
+    'clf3': ['EdadMeses',
            'ZScorePesoTalla',
            'ZScoreIMC'],
-    rf3: ['EdadMeses',
+    'rf3': ['EdadMeses',
           'Peso',
           'Talla',
           'ZScoreTallaEdad',
@@ -25,7 +25,7 @@ cols_model = {
           'ZScorePesoTalla',
           'ZScoreIMC']
     }
-  english = {
+english = {
       'IdToma':'IdTake',
       'Registro': 'Record',
       'Vigencia': 'Year',
@@ -58,7 +58,7 @@ cols_model = {
       'Riesgo desnutricion (3 meses)': 'Undernutrition risk (3 mo)',
       }
   
-def predict_set(dataset, model, cols_input, time=3, depth=2):
+def predict_set(dataset, model, cols_input=cols_model['clf3'], time=3, depth=2):
   df = dataset.sort_values(['IdBeneficiario', 'EdadMeses'])
   df = df.dropna(subset=cols_input).reset_index(drop=True)
   his_list = list()

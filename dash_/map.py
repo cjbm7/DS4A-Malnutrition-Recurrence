@@ -21,21 +21,18 @@ with open(geojson_mpios) as geo_json:
 available_indicators = ['ingr_prom','prom_gasto_pper','porc_gast']
 
 layout = html.Div([
-    dcc.Dropdown(
-					id='map_type',
-					options=[{'label': i, 'value': i} for i in available_indicators],
-					value='porc_gast'
-				),
-    dcc.Graph(id='indicator-map')])#, style={'width': '100%', 'display': 'inline-block'})])
-	
-"""dbc.Card([
+
+	dbc.Card([
 		dbc.CardHeader([
 			html.Div([
+				dbc.FormGroup([dbc.Label(html.B("Variable:"), html_for="xaxis-column"),
 				dcc.Dropdown(
 					id='map_type',
 					options=[{'label': i, 'value': i} for i in available_indicators],
 					value='porc_gast'
 				),
+				]),
+				
 			],style={'width': '48%', 'display': 'inline-block'}),
 		]),
 		dbc.CardBody(
@@ -43,6 +40,14 @@ layout = html.Div([
 		)
 	])
 ])
+"""
+    dcc.Dropdown(
+					id='map_type',
+					options=[{'label': i, 'value': i} for i in available_indicators],
+					value='porc_gast'
+				),
+    dcc.Graph(id='indicator-map')])#, style={'width': '100%', 'display': 'inline-block'})])
+	
 """
 
 @dashapp.callback(
@@ -69,19 +74,20 @@ def update_graph(map_type=False):
 	return fig
 
 
-def update(valor=None):
+def alt_map(valor=None):
 	if valor is None: valor = 'prom_gasto_pper'
 	layout = html.Div([
-		html.H4("Socioecomonics - Dataset Variables?", className="display-4"),
 		dbc.Card([
 			dbc.CardHeader([
 				html.Div([
+					dbc.FormGroup([dbc.Label(html.B("Variable:"), html_for="xaxis-column"),
 					dcc.Dropdown(
 						id='map_type',
-						name=valor,
 						options=[{'label': i, 'value': i} for i in available_indicators],
-						value=""
+						value=valor
 					),
+					]),
+					
 				],style={'width': '48%', 'display': 'inline-block'}),
 			]),
 			dbc.CardBody(
