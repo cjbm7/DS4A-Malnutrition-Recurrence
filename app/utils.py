@@ -11,7 +11,88 @@ from data import dbase
 clf = joblib.load(modelpk)
 
 import numpy as np
-def predict_set(dataset, model):
+
+# New function
+cols_model = {
+    clf3: ['EdadMeses',
+           'ZScorePesoTalla',
+           'ZScoreIMC'],
+    rf3: ['EdadMeses',
+          'Peso',
+          'Talla',
+          'ZScoreTallaEdad',
+          'ZScorePesoEdad',
+          'ZScorePesoTalla',
+          'ZScoreIMC']
+    }
+  english = {
+      'IdToma':'IdTake',
+      'Registro': 'Record',
+      'Vigencia': 'Year',
+      'Toma': 'Take',
+      'Servicio': 'Service',
+      'FechaValoracionNutricional': 'Date nutr assessment',
+      'EdadMeses': 'Age (mo)',
+      'FechaMedicionPerimetroBraquial': 'Date arm circ measurement',
+      'MedicionPerimetroBraquial': 'Arm circunference',
+      'Peso': 'Weight',
+      'Talla': 'Height', 
+      'ZScoreTallaEdad': 'Height-for-age z-score',
+      'ZScorePesoEdad': 'Weight-for-age z-score',
+      'ZScorePesoTalla': 'Weight-for-height z-score',
+      'ZScoreIMC': 'IMC z-score',
+      'EstadoTallaEdad': 'Height-for-age status',
+      'EstadoPesoEdad': 'Weight-for-age status',
+      'EstadoPesoTalla': 'Weight-for-height status',
+      'EstadoIMC': 'IMC status',
+      'Flag': 'Flags',
+      'FechaRegistroSaludNutricion': 'Date registration',
+      'PresentaCarneVacunacion': 'Vaccination card',
+      'ControlesCrecimDesarrollo': 'Growth and development control',
+      'AntecedentePremadurez': 'Prematurity antecedent',
+      'Direccion': 'Direction',
+      'IdBeneficiario': 'IdBeneficiary',
+      #'Id',
+      'Riesgo desnutricion (1 meses)': 'Undernutrition risk (1 mo)',
+      'Riesgo desnutricion (2 meses)': 'Undernutrition risk (2 mo)',
+      'Riesgo desnutricion (3 meses)': 'Undernutrition risk (3 mo)',
+      }
+  
+def predict_set(dataset, model, cols_input, time=3, depth=2):
+  df = dataset.sort_values(['IdBeneficiario', 'EdadMeses'])
+  df = df.dropna(subset=cols_input).reset_index(drop=True)
+  his_list = list()
+  for i in range(depth - 1, len(df)):
+    id = df.loc[i, 'IdBeneficiario']
+    if (df.loc[i - depth + 1, 'IdBeneficiario'] == id):
+      fragmento = df.loc[i - depth + 1: i].reset_index(drop=True).\
+        reset_index(drop=False)
+      melted = fragmento.melt(id_vars='index', value_vars=cols_input)
+      melted['varname'] = melted.\
+        apply(lambda x: x['variable'] + '-' + str(depth - x['index']), axis='columns')
+      melted['IdBeneficiario'] = [id] * len(melted)
+      pivot = melted.pivot(index='IdBeneficiario', columns='varname', values='value').\
+        reset_index(drop=False)
+      pivot['EdadMeses-0'] = pivot['EdadMeses-1'] + 3
+      his_list.append(pivot)
+  his = pd.concat(his_list, axis='index').dropna()
+  Ids = his['IdBeneficiario']
+  X = his.drop(columns=['IdBeneficiario'])
+  y = [round(q, 2) for p, q in model.predict_proba(X)]
+  
+  prediction = pd.DataFrame({'IdBeneficiario': Ids,
+                             f'Riesgo desnutricion ({time} meses)': y})
+  prediction = prediction.drop_duplicates(subset=['IdBeneficiario'], keep='last')
+  data = df.drop_duplicates(subset=['IdBeneficiario'], keep='last')
+  result =  data.merge(prediction, on='IdBeneficiario', how='left')
+  return result
+
+def translate_dataframe(df, dictionary):
+  return df.rename(columns=dictionary)
+
+
+# Old function
+def predict_set_one_model(dataset, model):
   df = dataset.sort_values(['IdBeneficiario', 'EdadMeses'])
   cols_modelo = [
                  'EdadMeses',
@@ -87,13 +168,13 @@ def nutrition_monitoring_plot(IdBeneficiario, dataset, points, lang='english'):
     }
     
   spanish = {
-    'EstadoPesoTalla=Desnutrición aguda severa': 'Desnutrición aguda severa',
-    'EstadoPesoTalla=Desnutrición aguda moderada': 'Desnutrición aguda moderada',
-    'EstadoPesoTalla=Riesgo de desnutrición aguda': 'Riesgo de desnutrición aguda',
-    'EstadoPesoTalla=Peso adecuado para la talla': 'Peso adecuado para la talla',
-    'EstadoPesoTalla=Riesgo de sobrepeso': 'Riesgo de sobrepeso',
-    'EstadoPesoTalla=Sobrepeso': 'Sobrepeso',
-    'EstadoPesoTalla=Obesidad': 'Obesidad',
+    'Desnutrición aguda severa': 'Desnutrición aguda severa',
+    'Desnutrición aguda moderada': 'Desnutrición aguda moderada',
+    'Riesgo de desnutrición aguda': 'Riesgo de desnutrición aguda',
+    'Peso adecuado para la talla': 'Peso adecuado para la talla',
+    'Riesgo de sobrepeso': 'Riesgo de sobrepeso',
+    'Sobrepeso': 'Sobrepeso',
+    'Obesidad': 'Obesidad',
     'plot title': 'Seguimiento nutricional',
     'x axis': 'Talla (cm)',
     'y axis': 'Peso (kg)',
