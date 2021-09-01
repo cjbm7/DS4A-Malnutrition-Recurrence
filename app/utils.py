@@ -47,7 +47,7 @@ def predict_set(dataset, model):
               'ZScorePesoTalla-1', 'RiesgoDesnutricion3Meses']]
 
 
-def nutrition_monitoring_plot(IdBeneficiario, dataset, points, lang):
+def nutrition_monitoring_plot(IdBeneficiario, dataset, points, lang='english'):
   '''Retorna la gráfica de seguimiento nutricional para un beneficiario, a partir de su 
   identificador IdBeneficiario en un dataset de tomas nutricionales, incluyendo:
   'Sexo', 'Talla', 'Peso', 'EstadoPesoTalla', 'EstadoPesoTalla', 'ZScorePesoTalla', 'EdadMeses',
@@ -73,18 +73,19 @@ def nutrition_monitoring_plot(IdBeneficiario, dataset, points, lang):
   cols_plot = ['Sexo', 'FechaValoracionNutricional', 'EdadMeses', 'Talla', 'Peso', 
               'ZScorePesoTalla', 'EstadoPesoTalla']
   english = {
-    'EstadoPesoTalla=Desnutrición aguda severa': 'Severely wasted',
-    'EstadoPesoTalla=Desnutrición aguda moderada': 'Wasted',
-    'EstadoPesoTalla=Riesgo de desnutrición aguda': 'Risk of wasting',
-    'EstadoPesoTalla=Peso adecuado para la talla': 'Normal weight for height',
-    'EstadoPesoTalla=Riesgo de sobrepeso': 'Risk of overweight',
-    'EstadoPesoTalla=Sobrepeso': 'Overweight',
-    'EstadoPesoTalla=Obesidad': 'Obesity',
+    'Desnutrición aguda severa': 'Severely wasted',
+    'Desnutrición aguda moderada': 'Wasted',
+    'Riesgo de desnutrición aguda': 'Risk of wasting',
+    'Peso adecuado para la talla': 'Normal weight for height',
+    'Riesgo de sobrepeso': 'Risk of overweight',
+    'Sobrepeso': 'Overweight',
+    'Obesidad': 'Obesity',
     'plot title': 'Nutritional monitoring',
     'x axis': 'Height (cm)',
     'y axis': 'Weight (kg)',
     'legend title': 'Nutritional status (Weight-for-height)'
     }
+    
   spanish = {
     'EstadoPesoTalla=Desnutrición aguda severa': 'Desnutrición aguda severa',
     'EstadoPesoTalla=Desnutrición aguda moderada': 'Desnutrición aguda moderada',

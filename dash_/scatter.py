@@ -86,7 +86,7 @@ layout = html.Div([
 
 									dbc.FormGroup(
 												[
-													dbc.Label(html.B("Cluster"), html_for="cluster-column"),
+													dbc.Label(html.B("Hue"), html_for="cluster-column"),
 
 													dcc.Dropdown(
 														id='cluster-column',

@@ -22,8 +22,8 @@ def report(idBen):
         print(ben_df)
     except:
         print('Error al conectar tomas.parquet')
-	
-    fig = nutrition_monitoring_plot(idBen, ben_df, points_plot, 'spanish')
+    benif = int(idBen)
+    fig = nutrition_monitoring_plot(benif, ben_df, points_plot)
     if fig:
         layout= html.Div(id='my-div', children=[
                 dcc.Graph(

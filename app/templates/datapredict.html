@@ -9,6 +9,15 @@
 	
   <style type="text/css" class="init">
 	
+	.astext {
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+    cursor: pointer;
+	text-decoration: underline;
+	}
+
 	table#example.dataTable tbody tr.Highlight > .sorting_1 {
 		background-color: rgb(170, 228, 255);
 		/*#ffa*/;
@@ -31,7 +40,7 @@
 	}
 
 	table#example.dataTable tbody tr.oHighlight {
-		background-color: rgb(173, 255, 170);
+		background-color: rgb(255, 170, 170);
 	}
 	
 	tr.odd td:first-child,
@@ -92,13 +101,14 @@
 									Empty Template
 								</dt>
 								<dd>
-									The empty template contains the required data. Download here.
+									The empty template contains the required data. Download <button type="submit" class="astext" onclick="window.open('{{url_for('static', filename='tests/dataset_template.csv' )}}')">here</button>..
+									
 								</dd>
 								<dt>
 									Test dataset
 								</dt>
 								<dd>
-									For testing purposes you can download a populated file here.
+									For testing purposes you can download a populated file <button type="submit" class="astext" onclick="window.open('{{url_for('static', filename='tests/dataset_test1.csv' )}}')">here</button>.
 								</dd>
 							</dl>
 						</div>
