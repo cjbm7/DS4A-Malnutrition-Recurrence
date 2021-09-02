@@ -52,13 +52,13 @@ layout = html.Div([
     [Input('xaxis-column', 'value'),])
 def update_graph(x):
 	if x == 'Sexo':
-		fig = px.box(data_frame=dt_sexo, x= x, y='ZScorePesoTallaT1')
+		fig = px.box(data_frame=dt_sexo, x= x, y='ZScorePesoTallaT1', color = x)
 	elif x == 'PresentaDiscapacidad':
-		fig = px.box(data_frame=dt_disc, x= x, y='ZScorePesoTallaT1')
+		fig = px.box(data_frame=dt_disc, x= x, y='ZScorePesoTallaT1', color = x)
 	elif x == 'ZonaUbicacionBeneficiario':
-		fig = px.box(data_frame=dt_Ubicacion, x= x, y='ZScorePesoTallaT1')
+		fig = px.box(data_frame=dt_Ubicacion, x= x, y='ZScorePesoTallaT1', color = x)
 	elif x == 'GrupoEtnico':
-		fig = px.box(data_frame=dt_Grupo, x= x, y='ZScorePesoTallaT1')
+		fig = px.box(data_frame=dt_Grupo, x= x, y='ZScorePesoTallaT1', color = x)
 
 	fig.update_layout(
 		title=f'{x} - Zscore',
