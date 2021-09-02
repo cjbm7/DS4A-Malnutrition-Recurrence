@@ -81,7 +81,7 @@ def splots():
 @app.route('/sociomaps')   #Pagina de mapas sociodemos dinámico( es un iFrame, el original está en /dash/maps)
 def sociomaps():
     context = {
-        'pagina': 'Sociodemographic Maps$',
+        'pagina': 'Sociodemographics',
         }
     return render_template('sociomaps.html', **context)
 
@@ -89,7 +89,7 @@ def sociomaps():
 @app.route('/boxplots')   #Pagina del box plot dinámico( es un iFrame, el original está en /dash/box plots)
 def boxplots():
     context = {
-        'pagina': 'Box Plots$',
+        'pagina': 'Box-Plots',
         }
     return render_template('boxplots.html', **context)
 
@@ -104,8 +104,9 @@ def predictor():
         df = pd.read_csv(f)
     else: return {}
     df = predict_set(df, clf)
+    print(df.columns)
     df.fillna("", inplace=True)
-    print(df.head())
+    #print(df.head())
     cant = len(df)
     pre_dict=df.to_dict(orient="records")
     data = {"data": pre_dict}
@@ -147,7 +148,7 @@ def seg_nutricional(idBeneficiario):
         print(ben)
         zip_iter = zip(cols, ben)
         context = dict(zip_iter)
-        print(context)
+        #print(context)
         fin= time.time()
         print(f'//////////////// tiempo total: {fin-inicio}s\\\\\\\\\\\\\\')
     except:
@@ -155,7 +156,7 @@ def seg_nutricional(idBeneficiario):
     context['Prediction'] = 0.30     # Corregir
     context['FechaValoracionNutricional'] = context['FechaValoracionNutricional'].strftime('%Y-%m-%d')
     if context['FechaNacimiento']: context['FechaNacimiento'] = context['FechaNacimiento'].strftime('%Y-%m-%d')
-    else: context['Nacimiento'] = 'Undisclosed'
+    else: context['FechaNacimiento'] = 'Undisclosed'
     try:
       risk = pred_risk(context['Prediction'])
       context['Prediction'] = str (context['Prediction'] * 100) + '% - ' + risk
@@ -171,24 +172,28 @@ def seg_nutricional(idBeneficiario):
 def data_json(dpto='all', mpio='all'):
     col_query = ', '.join(cols)
     if mpio != 'all':
-      query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE cod_mpio = '{mpio}' LIMIT 200"
+      query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE cod_mpio = '{mpio}' LIMIT 500"
     elif dpto != 'all':
-      query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE cod_dpto = '{dpto}' LIMIT 200"
+      query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE cod_dpto = '{dpto}' LIMIT 500"
     else:
-      query = f"SELECT {col_query} FROM '{tomas_pq}' LIMIT 200"
+      query = f"SELECT {col_query} FROM '{tomas_pq}' LIMIT 500"
     
     try:
         inicio = time.time()
         con = duckdb.connect()    #Inicialización de Duckdb para hacer query sobre un .parquet
         con.execute("PRAGMA threads=2")
         con.execute("PRAGMA enable_object_cache")
-        qry = con.execute(query).fetchall()
+        #qry = con.execute(query).fetchall()
+        qry = con.execute(query).df()
+        qry = qry.sample(150)
+        qry.fillna("", inplace=True)
         #print(qry)
-        toms = []
+        toms = qry.to_dict(orient="records")
+        """toms = []
         for item in qry:
           zip_iter = zip(cols, item)
           ben_dict = dict(zip_iter)
-          toms.append(ben_dict)
+          toms.append(ben_dict)"""
         fin= time.time()
         print(f'//////////////// tiempo total: {fin-inicio}s\\\\\\\\\\\\\\')
         data = {

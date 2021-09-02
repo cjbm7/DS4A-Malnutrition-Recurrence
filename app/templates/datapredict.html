@@ -264,18 +264,18 @@ $(document).ready(function() {
 			
         "columns": [
             { "data": "IdBeneficiario" },
-            { "data": "EdadMeses-0" },
-            { "data": "Peso-1" },
-            { "data": "Talla-1" },
-			{ "data": "ZScorePesoTalla-1" },
-			{ "data": "ZScoreIMC-1" },
-			{ "data": "RiesgoDesnutricion3Meses" }
+            { "data": "EdadMeses" },
+            { "data": "Peso" },
+            { "data": "Talla" },
+			{ "data": "ZScorePesoTalla" },
+			{ "data": "ZScoreIMC" },
+			{ "data": "Riesgo desnutricion (3 meses)" }
         ],
 		"columnDefs": [
 				{"className": "dt-center", "targets": "_all"}
 			],
 		"createdRow": function (row, data, dataIndex, cells) {
-			if (data.RiesgoDesnutricion3Meses > 0.5 && data.RiesgoDesnutricion3Meses <= 0.75) {
+			if (data['Riesgo desnutricion (3 meses'] > 0.5 && data['Riesgo desnutricion (3 meses'] <= 0.75) {
 				$(row).addClass('Highlight');
 			}
 			else if (data.RiesgoDesnutricion3Meses > 0.75) {
