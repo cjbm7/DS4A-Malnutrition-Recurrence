@@ -14,8 +14,8 @@ tomas_pq = os.path.join(basedir, 'core','tomas_max_50_act.parquet') #Vista regio
 incid_mpio = os.path.join(basedir, 'incidence','incidencia_mpio_act.parquet')
 incid_dpto = os.path.join(basedir, 'incidence','incidencia_dpto_act.parquet')
 
-tom3000_pq = os.path.join(basedir, 'plots','tomas_3000.parquet')  #Scatterplot
-#tom3000_pq = os.path.join(basedir, 'plots','tomas_3000_act.parquet')  #Scatterplot
+#tom3000_pq = os.path.join(basedir, 'plots','tomas_3000.parquet')  #Scatterplot
+tom3000_pq = os.path.join(basedir, 'plots','tomas_3000_act.parquet')  #Scatterplot
 boxplots_pq = os.path.join(basedir, 'plots','data_frame_to_boxplot.parquet')  
 
 socio_eda_mpios = os.path.join(basedir, 'plots','sociodemo_mpio_act.parquet') #heatmaps sociodemo
