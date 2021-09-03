@@ -21,28 +21,28 @@
     }
 
 	table#example.dataTable tbody tr.Highlight > .sorting_1 {
-		background-color: rgb(173, 255, 170);
+		background-color: rgb(255, 255, 204);
 		/*#ffa*/;
 	}
 
 	table#example.dataTable tbody tr.Highlight > .sorting_2 {
-		background-color: rgb(173, 255, 170);
+		background-color: rgb(255, 255, 204);
 	}
 
 	table#example.dataTable tbody tr.Highlight {
-		background-color: rgb(173, 255, 170);
+		background-color: rgb(255, 255, 204);
 	}
 	
     table#example.dataTable tbody tr.oHighlight > .sorting_1 {
-		background-color: rgb(170, 228, 255);
+		background-color: rgb(255, 153, 153);
 	}
 
 	table#example.dataTable tbody tr.oHighlight > .sorting_2 {
-		background-color: rgb(170, 228, 255);
+		background-color: rgb(255, 153, 153);
 	}
 
 	table#example.dataTable tbody tr.oHighlight {
-		background-color: rgb(170, 228, 255);
+		background-color: rgb(255, 153, 153);
 	}
 	
 	tr.odd td:first-child,
@@ -66,13 +66,13 @@
 
 					<div id='FormRegional' class="card">
 						<h5 class="card-header">
-							Card title
+							Select Region
 						</h5>
 						<div class="card-body">
 							<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Departamento</label>
+									<label>Departament</label>
 									<select class="form-control select2" id="dpto" style="width: 100%;" onchange="pdpto()">
 									<option value="all" selected>All</option>
 									{% for key, value in dptos.items() %}
@@ -84,7 +84,7 @@
 
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Municipio</label>
+									<label>Municipality</label>
 									<select id="mpio" class="form-control select2" style="width: 100%;" onchange="pmpio()">
 										<option value="all" selected>All</option>
 									</select>
@@ -97,7 +97,7 @@
 					</div>
 					<div class="card">
 						<h5 class="card-header">
-							Card title
+							Indicators
 						</h5>
 						<div class="card-body">
 							
@@ -109,7 +109,7 @@
 						
 									  <div class="info-box-content">
 										<span class="info-box-text">Population</span>
-										<span class="info-box-number"><h5><strong id="pobl">1.114.567</strong></h5></span>
+										<span class="info-box-number"><h5><strong id="pobl">50.340.000</strong></h5></span>
 									  </div>
 									  <!-- /.info-box-content -->
 									</div>
@@ -123,7 +123,7 @@
 						
 									  <div class="info-box-content">
 										<span class="info-box-text">Children assited </span>
-										<span class="info-box-number"><h5><strong id="assist">14.567</strong></h5></span>
+										<span class="info-box-number"><h5><strong id="assist">1.206.532</strong></h5></span>
 									  </div>
 									  <!-- /.info-box-content -->
 									</div>
@@ -138,8 +138,8 @@
 							<div class="row">
 								<div class="col-sm-3 col-6">
 									<div class="description-block border-right">
-										<span class="description-percentage text-success" id="fdes"><i class="fas fa-caret-up" id="ides"></i><span id="ddes"> 18%</span></span>
-										<h5 class="description-header" id="des">2.45%</h5>
+										<span class="description-percentage text-warning" id="fdes"><i class="" id="ides"></i><span id="ddes"> 0%</span></span>
+										<h5 class="description-header" id="des">2.44%</h5>
 										<span class="description-text">Malnutrition</span>
 									</div>
 								<!-- /.description-block -->
@@ -147,8 +147,8 @@
 								<!-- /.col -->
 								<div class="col-sm-3 col-6">
 									<div class="description-block border-right">
-										<span class="description-percentage text-warning" id="frec"><i class="fas fa-caret-down" id="irec"></i><span id="drec"> 18%</span></span>
-										<h4 class="description-header" id="rec">90.12%</h4>
+										<span class="description-percentage text-warning" id="frec"><i class="" id="irec"></i><span id="drec"> 0%</span></span>
+										<h4 class="description-header" id="rec">90.24%%</h4>
 										<span class="description-text">Recover</span>
 									</div>
 								<!-- /.description-block -->
@@ -156,8 +156,8 @@
 								<!-- /.col -->
 								<div class="col-sm-3 col-6">
 									<div class="description-block border-right">
-										<span class="description-percentage text-success" id="frecid"><i class="fas fa-caret-up" id="irecid"></i> <span id="drecid"> 18%</span></span>
-										<h5 class="description-header" id="recid">$24,813.53</h5>
+										<span class="description-percentage text-warning" id="frecid"><i class="" id="irecid"></i> <span id="drecid"> 0%</span></span>
+										<h5 class="description-header" id="recid">9.15%</h5>
 										<span class="description-text">Recurrence</span>
 									</div>
 								<!-- /.description-block -->
@@ -166,8 +166,8 @@
 								
 								<div class="col-sm-3 col-6">
 									<div class="description-block">
-										<span class="description-percentage text-danger" id="finc"><i class="fas fa-caret-down" id="iinc"></i> <span id="dinc"> 18%</span></span>
-										<h5 class="description-header" id="inc">174</h5>
+										<span class="description-percentage text-warning" id="finc"><i class="" id="iinc"></i> <span id="dinc"> 0%</span></span>
+										<h5 class="description-header" id="inc">174.825</h5>
 										<span class="description-text">Household income</span>
 									</div>
 								<!-- /.description-block -->
@@ -197,27 +197,27 @@
 						<thead>
 							<tr>
 								<th></th>
-								<th>IdBeneficiario</th>
-								<th>Municipio</th>
-								<th>EdadMeses</th>
-								<th>Peso</th>
-								<th>Talla</th>
-								<th>ZScorePesoTalla</th>
-								<th>ZScoreIMC</th>
-								<th>RiesgoDesnutricion3Meses</th>
+								<th>IdBen.</th>
+								<th>Region</th>
+								<th>Age(mo)</th>
+								<th>Weight</th>
+								<th>Height</th>
+								<th>Weight-height Zscore</th>
+								<th>BMI Zscore</th>
+								<th>Undernutrition risk (3 mo)</th>
 							</tr>
 						</thead>
 						<tfoot>
 							<tr>
 								<th></th>
-								<th>IdBeneficiario</th>
-								<th>EdadMeses</th>
-								<th>Municipio</th>
-								<th>Peso</th>
-								<th>Talla</th>
-								<th>ZScorePesoTalla</th>
-								<th>ZScoreIMC</th>
-								<th>RiesgoDesnutricion3Meses**</th>
+								<th>IdBen.</th>
+								<th>Region</th>
+								<th>Age(mo)</th>
+								<th>Weight</th>
+								<th>Height</th>
+								<th>Weight-height Zscore</th>
+								<th>BMI Zscore</th>
+								<th>Undernutrition risk (3 mo)</th>
 							</tr>
 						</tfoot>
 					</table>
@@ -344,20 +344,20 @@ function ajax_mpios(){
 function format ( d ) {
 	var rows = 	'<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
 					'<tr>'+
-						'<td>IdBeneficiario:</td>'+
+						'<td>Beneficiary Id:</td>'+
 						'<td>'+d.IdBeneficiario+'</td>'+
 					'</tr>'+
 					'<tr>'+
-						'<td>Nombre Completo:</td>'+
+						'<td>Full name:</td>'+
 						'<td>Undisclosed Name</td>'+
 					'</tr>'+
 					'<tr>'+
-						'<td>Dirección:</td>'+
+						'<td>Direction:</td>'+
 						'<td>'+d.Direccion+'</td>'+
 					'</tr>'+
 					'<tr>'+
-						'<td><strong>Reporte de seguimiento nutricional</strong></td>'+
-						'<td> <a class="btn btn-info" href="/seguimiento/'+d.IdBeneficiario+'" role="button">Imprimir</a> </td>'+
+						'<td><strong>Nutritional monitoring report</strong></td>'+
+						'<td> <a class="btn btn-info" href="/report/'+d.IdBeneficiario+'" role="button">Print report</a> </td>'+
 					'</tr>'+
 				'</table>';
 
@@ -397,16 +397,16 @@ $(document).ready(function() {
 			{ "data": "Talla" },
 			{ "data": "ZScorePesoTalla" },
 			{ "data": "ZScoreIMC" },
-			{ "data": "ZScoreTallaEdad" }
+			{ "data": "prediction3m" }
 		],
 		"columnDefs": [
 				{"className": "dt-center", "targets": "_all"}
 			],
 		"createdRow": function (row, data, dataIndex, cells) {
-			if (data.ZscoreIMC < -0.5) {
+			if (data.prediction3m > 0.49 && data.prediction3m <= 0.745) {
 				$(row).addClass('Highlight');
 			}
-			else if (data.ZscoreIMC > 0.75) {
+			else if (data.prediction3m > 0.745) {
 				$(row).addClass('oHighlight');
 			}}
 	} );

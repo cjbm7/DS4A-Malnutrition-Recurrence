@@ -12,7 +12,6 @@ from .utils import predict_set, clf, pred_risk, latest_pred
 from .misc import contacts, dptos, cols, sociodemo_nal
 from data import *
 
-
 from nanoid import generate   #Genera el id de la predicción
 def uidg(largo=7):
 	return generate('1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ', largo)
@@ -24,7 +23,15 @@ def inicio():
         'pagina': 'DS4a Final Project - Recurrence of malnutrition in Colombia: Analysis and prediction of associated risk factors',
         'all_contacts': contacts
         }
-    return render_template('index.html', **context)#, all_contacts=contacts)
+    return render_template('index.html', **context)
+
+
+@app.route('/problem')  #Página de inicio
+def problem():
+    context = {
+        'pagina': 'The problem',
+        }
+    return render_template('problem.html', **context)
 
 
 @app.route('/data_predict', methods=['GET', 'POST'])  #Página del predictor
@@ -43,7 +50,7 @@ def data_predict(id=None):
 @app.route('/regional')  #Pagina Dasboard Regional
 def regional():
     context = {
-        'pagina': 'Regional$',
+        'pagina': 'Regional',
         'dptos': dptos
         }
     return render_template('regional.html', **context)
@@ -73,7 +80,7 @@ def mpios(dpto):
 @app.route('/splots')   #Pagina del Scatter plot dinámico( es un iFrame, el original está en /dash/scatter)
 def splots():
     context = {
-        'pagina': 'Scatterplots$',
+        'pagina': 'Scatterplots',
         }
     return render_template('splot.html', **context)
 
@@ -135,8 +142,8 @@ def resp_json(idt):
     return pjson
 
 
-@app.route('/seguimiento/<idBeneficiario>')  #Vista de seguimiento nutricional
-def seg_nutricional(idBeneficiario):
+@app.route('/report/<idBeneficiario>')  #Vista de seguimiento nutricional
+def seg_nutricional(idBeneficiario=False):
     col_query = ', '.join(cols)
     try:
         inicio = time.time()
@@ -164,7 +171,6 @@ def seg_nutricional(idBeneficiario):
       context['Prediction'] = 'N.D.'
     datetim = datetime.datetime.now()
     context['Datetime'] = datetim.strftime('%Y-%m-%d, %H:%M')
-    #return jsonify(context)
     return render_template('fichanutricional.html', **context)
 
 
@@ -200,7 +206,7 @@ def data_json(dpto='all', mpio='all'):
             "data": toms}
         return jsonify(data)
     except:
-        return 'Error al conectar tomas.parquet'
+        return {}
 
 
 

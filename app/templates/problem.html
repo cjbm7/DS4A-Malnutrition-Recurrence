@@ -1,0 +1,40 @@
+{% extends "starter.html" %}
+{% block title %}{{pagina}}{% endblock %} 
+
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+{% endblock %}
+
+{% block content %}
+  <section class="Project-info-section text-muted">
+    <div class="container">
+      <div class="row">
+        
+        <div class="card card-body col-xl-6">
+          <h1 class="display-4">Our Problem</h1>
+          <p class="lead"> 
+            <div class="text-justify">
+              One of the major concerns of the ICBF is related to problems in early childhood nutrition, given that every year new cases of deaths related to malnutrition are detected. According to the World Bank, OMS, and UNICEF, at least 10% of child and infant mortality was caused by malnutrition issues in 2015. Particularly, in Colombia, according to the National Survey of Nutritional Situation in 2015, the prevalence of delays in the development was around 10.8% and of acute malnutrition of 1.6%, but these values could drastically increase in some specific regions of the country.<br><br>
+
+              For these reasons, the ICBF was interested in finding some insights about socioeconomic and nutritional variables that could influence in a long term the early childhood (0 - 5 years old) malnutrition. Furthermore, the main goal of finding some correlation between these variables was to solve the following question: Could we use these socioeconomic and nutritional information to predict  recurrent cases of malnutrition? Solving this question will give the Institute really important information so they could focus their efforts on the predicted cases and reduce their risk of  malnutrition problems in the future.<br><br>
+            </div>
+          </p>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card-body">
+            <blockquote>
+              <p>"The Sustainable Development Goals (SDGs) aim to end all forms of hunger and malnutrition by 2030, making sure all people – especially children and the more vulnerable – have access to sufficient and nutritious food all year round."</p>
+              <small>Sustainable Development Goals Fund. <cite title="Source Title">United Nations.</cite></small>
+            </blockquote>
+          </div>
+          <div class="text-center">
+            <img src="https://redefiningbusiness.org/wp-content/uploads/2020/12/SDG2.png" alt="" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}

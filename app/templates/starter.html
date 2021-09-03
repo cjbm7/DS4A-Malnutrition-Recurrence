@@ -70,7 +70,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src={{ url_for('static',filename='img/user.jpg')}} class="img-circle elevation-2" alt="User Image">
+          <img src={{ url_for('static',filename='img/12.png')}} class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="{{ url_for('inicio') }}" class="d-block">Team 12</a>
@@ -89,6 +89,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="{{ url_for('problem') }}" class="nav-link">
+              <i class="nav-icon fas fa-seedling"></i>
+              <p>
+                The Problem
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+          </li>
           <li class="nav-item menu-open">
             <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-square-root-alt"></i>
@@ -115,28 +124,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <a href="{{ url_for('regional') }}" class="nav-link">
                   <i class="fas fa-tachometer-alt nav-icon"></i>
-                  <p>Regional</p>
+                  <p>Regional Dashboard</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{{ url_for('sociomaps') }}" class="nav-link">
                   <i class="far fa-map nav-icon"></i>
-                  <p>Maps</p>
+                  <p>Heat-Maps</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="{{ url_for('boxplots') }}" class="nav-link">
                   <i class="far fa-chart-bar nav-icon"></i>
-                  <p>Box plots</p>
+                  <p>Box-plots</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="/seguimiento/82480" class="nav-link">
+                <a href="/report/16315225" class="nav-link">
                   <i class="far fa-file-alt nav-icon"></i>
-                  <p>Seg. Nutricional</p>
+                  <p>Nutritional report</p>
                 </a>
               </li>
 

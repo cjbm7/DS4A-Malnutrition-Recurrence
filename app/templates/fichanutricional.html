@@ -2,9 +2,10 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Seguimiento nutricional</title>
+  <title>Nutritional Monitoring Report</title>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
   <style>
       body {
@@ -93,7 +94,8 @@
 <body>
 
   <div class="floating-buttons">
-    <button onclick="print()">Imprimir</button>
+    <a href="/regional"><button>Regional Dashboard</button></a>
+    <button onclick="print()">Print Report</button>
   </div>
   
 
@@ -105,7 +107,7 @@
             <td width="30%"><img style="max-width: 30%;" src={{ url_for('static',filename='img/ICBF_logo.png')}} alt="Instituto Colombiano de Bienestar Familiar" /></td>
               <td width="55%">
                 <div>
-                  <h3>Seguimiento Nutricional</h3>
+                  <h3>Nutritional Monitoring Report</h3>
                 </div>
               </td>
               <td align="center" width="15%">
@@ -122,18 +124,18 @@
        <tbody>
         <tr valign="top">
           <td align="left" width="4%">
-            <div style="font-weight: bold;">Nombre:</div>
+            <div style="font-weight: bold;">Name:</div>
           </td>
           <td width="15%">
-            <div align="left"><span id="tipoId"></span>               <span id="numId"></span>** Undisclosed Name ** </div>
+            <div align="left"><span id="tipoId"></span>               <span id="numId"></span>**Undisclosed Name</div>
            </td>
            <td align="left" width="15%">
-             <div style="font-weight: bold;">Fecha de Nacimiento:</div>
+             <div style="font-weight: bold;">Date of birth:</div>
            </td>
            <td align="left" width="10%">
              <div>{{FechaNacimiento}}</div>
            </td>
-           <td style="font-weight: bold;" width="7%">Sexo:</td>
+           <td style="font-weight: bold;" width="7%">Sex:</td>
            <td width="12%">{{Sexo}}</td>
          </tr>
        </tbody>
@@ -145,16 +147,16 @@
        <tbody>
          <tr>
            <td align="left" width="10%">
-             <div style="font-weight: bold;">Edad:</div>
+             <div style="font-weight: bold;">Age:</div>
            </td>
            <td width="20%">
-             <div align="left"><span id="tipoId">{{EdadMeses}} meses </span></div>
+             <div align="left"><span id="tipoId">{{EdadMeses}} months </span></div>
            </td>
            <td align="left" width="10%">
-             <div style="font-weight: bold;">Servicio:</div>
+             <div style="font-weight: bold;">Service:</div>
            </td>
            <td align="left" width="45%">
-             <div>{{Servicio}}</div>
+             <div>{{Direccion}}</div>
            </td>
            <td style="font-weight: bold;" align="right" width="10%">&nbsp;</td>
 <td width="25%">&nbsp;</td>
@@ -168,18 +170,18 @@
 
     <table style="border-top: 1px dashed #444;" width="100%">
     <div  class="frascos">
-          <span style="font-weight: bold;">Última toma</span>
+          <span style="font-weight: bold;">Last Mesurement</span>
         </div>
        <tbody>
         <tr valign="top">
           <td align="left" width="4%">
-            <div style="font-weight: bold;">Fecha:</div>
+            <div style="font-weight: bold;">Date:</div>
           </td>
           <td width="15%">
             <div align="left"><span id="tipoId"></span>               <span id="numId"></span>{{FechaValoracionNutricional}}</div>
            </td>
            <td align="left" width="15%">
-             <div style="font-weight: bold;">Estado Peso Talla:</div>
+             <div style="font-weight: bold;">Weight-for-height status:</div>
            </td>
            <td align="left" width="30%">
              <div>{{EstadoPesoTalla}}</div>
@@ -188,26 +190,26 @@
          </tr>
          <tr valign="top">
           <td align="left" width="4%">
-            <div style="font-weight: bold;">Edad:</div>
+            <div style="font-weight: bold;">Age:</div>
           </td>
           <td width="15%">
             <div align="left"><span id="tipoId"></span>               <span id="numId"></span>{{EdadMeses}} meses</div>
            </td>
            <td align="left" width="15%">
-             <div style="font-weight: bold;">Estado Peso Edad:</div>
+             <div style="font-weight: bold;">Weight-for-age status:</div>
            </td>
            <td align="left" width="30%">
              <div>{{EstadoPesoEdad}}</div>
            </td>
            <tr valign="top">
           <td align="left" width="4%">
-            <div style="font-weight: bold;">Talla:</div>
+            <div style="font-weight: bold;">Height:</div>
           </td>
           <td width="15%">
             <div align="left"><span id="tipoId"></span>               <span id="numId"></span>{{Talla}} cm</div>
            </td>
            <td align="left" width="15%">
-             <div style="font-weight: bold;">Estado IMC:</div>
+             <div style="font-weight: bold;">BMI status:</div>
            </td>
            <td align="left" width="30%">
              <div>{{EstadoIMC}}</div>
@@ -216,13 +218,13 @@
          </tr>
          <tr valign="top">
           <td align="left" width="4%">
-            <div style="font-weight: bold;">Peso:</div>
+            <div style="font-weight: bold;">Weight:</div>
           </td>
           <td width="15%">
             <div align="left"><span id="tipoId"></span>               <span id="numId"></span>{{Peso}} kg</div>
            </td>
            <td align="left" width="15%">
-             <div style="font-weight: bold;">Estado  Talla Edad:</div>
+             <div style="font-weight: bold;">Height-for-age status:</div>
            </td>
            <td align="left" width="30%">
              <div>{{EstadoTallaEdad}}</div>
@@ -253,12 +255,12 @@
     <div style="padding-top: 5px;">
       <div class="cada-frasco ">
         <div  class="frascos">
-          <span style="font-weight: bold;">Riesgo nutricional sin supervisión</span>
+          <span style="font-weight: bold;">Unsupervised nutritional risk</span>
         </div>
         <table width="100%" >
           <tr>
             <td valign="top" width="65%">
-              <div >Riesgo estimado de sufrir desnutrición aguda en los próximos tres (3) meses:</div>
+              <div >Estimated risk of suffering acute malnutrition in the next three (3) months:</div>
             </td>
             <td width="35%" style="text-align: center">
               <span >
@@ -278,4 +280,5 @@
 
 
 </body>
+
 </html>
