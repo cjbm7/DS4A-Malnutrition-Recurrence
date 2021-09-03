@@ -9,7 +9,7 @@ import pandas as pd
 import sqlite3
 import duckdb
 from .utils import predict_set, clf, pred_risk, latest_pred
-from .misc import contacts, dptos, cols
+from .misc import contacts, dptos, cols, sociodemo_nal
 from data import *
 
 
@@ -172,11 +172,11 @@ def seg_nutricional(idBeneficiario):
 def data_json(dpto='all', mpio='all'):
     col_query = ', '.join(cols)
     if mpio != 'all':
-      query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE cod_mpio = '{mpio}' LIMIT 500"
+      query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE cod_mpio = '{mpio}' LIMIT 50"
     elif dpto != 'all':
-      query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE cod_dpto = '{dpto}' LIMIT 500"
+      query = f"SELECT {col_query} FROM '{tomas_pq}' WHERE cod_dpto = '{dpto}' LIMIT 50"
     else:
-      query = f"SELECT {col_query} FROM '{tomas_pq}' LIMIT 500"
+      query = f"SELECT {col_query} FROM '{tomas_pq}' LIMIT 50"
     
     try:
         inicio = time.time()
@@ -185,7 +185,7 @@ def data_json(dpto='all', mpio='all'):
         con.execute("PRAGMA enable_object_cache")
         #qry = con.execute(query).fetchall()
         qry = con.execute(query).df()
-        qry = qry.sample(150)
+        qry = qry.sample(40)
         qry.fillna("", inplace=True)
         #print(qry)
         toms = qry.to_dict(orient="records")
@@ -201,3 +201,71 @@ def data_json(dpto='all', mpio='all'):
         return jsonify(data)
     except:
         return 'Error al conectar tomas.parquet'
+
+
+
+@app.route('/ind_json/<dpto>/<mpio>', methods=['GET','POST'])
+def ind_json(dpto='all', mpio='all'):
+    con = duckdb.connect()
+    sociod = False
+    if mpio != 'all':
+      query_i = f"SELECT * FROM '{incid_mpio}' WHERE cod_mpio = '{mpio}'"
+      query_s = f"SELECT * FROM '{socio_eda_mpios}' WHERE cod_mpio = '{mpio}'"
+    elif dpto != 'all':
+      query_i = f"SELECT * FROM '{incid_dpto}' WHERE cod_dpto = '{dpto}'"
+      query_s = f"SELECT * FROM '{socio_eda_dptos}' WHERE cod_dpto = '{dpto}'"
+    else:
+      query_i = f"SELECT * FROM '{incid_dpto}' WHERE cod_dpto = '10'"
+      sociod = sociodemo_nal
+    try:
+        qry_i = con.execute(query_i).df()
+        indic = qry_i.to_dict(orient="records")
+    except:
+        return {}
+    if sociod: pass
+    else:
+        try:
+            qry_s = con.execute(query_s).df()
+            sociod = qry_s.to_dict(orient="records")
+            sociod = sociod[0]
+            sociod['dif_inc'] = round((sociod['ingr_prom'] - sociodemo_nal['ingr_prom']) / sociodemo_nal['ingr_prom'],2)
+            print(sociod)
+        except:
+            sociod = {}
+    data = {**sociod, **indic[0]}
+    return jsonify(data)
+
+
+
+
+def carlos():
+    if mpio != 'all':
+      query_i = f"SELECT * FROM '{incid_mpio}' WHERE cod_mpio = '{mpio}'"
+      query_s = f"SELECT * FROM '{socio_eda_mpios}' WHERE cod_mpio = '{mpio}'"
+    elif dpto != 'all':
+      query_i = f"SELECT * FROM '{incid_dpto}' WHERE cod_dpto = '{dpto}'"
+      query_s = f"SELECT * FROM '{socio_eda_dptos}' WHERE cod_mpio = '{dpto}'"
+    else:
+      query_i = f"SELECT * FROM '{incid_dpto}' WHERE cod_mpio = '10'"
+      sociod = sociodemo_nal
+    
+    try:
+        con = duckdb.connect()    #Inicialización de Duckdb para hacer query sobre un .parquet
+        con.execute("PRAGMA threads=2")
+        con.execute("PRAGMA enable_object_cache")
+        qry_i = con.execute(query_i).df()
+        print(qry_i)
+        indic = qry_i.to_dict(orient="records")
+    except:
+        return 'Error al conectar tomas.parquet'
+    if not sociod:
+        try:
+            qry_s = con.execute(query_s).df()
+            sociod = qry_s.to_dict(orient="records")
+        except:
+            sociod = {}
+    details = indic | sociod
+
+    data = {"data": details}
+    
+    return jsonify(data)
