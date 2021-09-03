@@ -15,7 +15,7 @@ contacts = {1 : {'name': "Abraham Guerrero", 'title': "Mathematical",
               'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/', 'Address': 'Bogotá'},
               6: {'name': "Javier Herrera", 'title': "Economist", 
               'Hobbies': 'Data science, Photography and Literature', "foto":'img/javier.png',
-              'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/', 'Address': 'Bogotá'},
+              'linkedin':'https://www.linkedin.com/in/javierherrerab/', 'Address': 'Bogotá'},
               7: {'name': "Miller Andrés Ruiz", 'title': "Agronomist", 
               'Hobbies': 'Running and Travel', "foto":'img/miller.png',
               'linkedin':'https://www.linkedin.com/in/giovannicastellanosu/', 'Address': 'Bogotá'}}
