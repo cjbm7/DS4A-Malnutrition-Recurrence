@@ -14,7 +14,7 @@ dt = pd.read_parquet(tom3000_pq)
 fin = time.time()
 print(f"Tiempo de ejecucion tomas3000: {fin-inicio}")
 
-clusters = dt.columns  #Pendiente
+
 
 available_indicators = [ 'EdadMeses',
 						 'MedicionPerimetroBraquial',
@@ -29,6 +29,8 @@ available_indicators = [ 'EdadMeses',
 						 'cod_mpio',
 						 'cod_dpto',
 						 'ingresos_promP_imp']
+
+clusters = available_indicators  #Pendiente
 
 layout = html.Div([
 	dbc.Card([	

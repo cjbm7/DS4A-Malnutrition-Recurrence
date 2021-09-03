@@ -4,22 +4,24 @@ import plotly.express as px
 import pandas as pd
 import json
 
-from data import socio_eda_mpios, geojson_mpios
+from data import socio_eda_mpios, geojson_mpios, incid_mpio
 
-soct = pd.read_parquet(socio_eda_mpios)
+incid = pd.read_parquet(incid_mpio)
 
 with open(geojson_mpios) as geo_json:
     mpios_json = json.load(geo_json)
 
+available_indicator = ['fracc_desnutricion', 'fracc_recuperacion', 'fracc_reincidencia']
+
 def update_g(dpto='all', mpio='all'):
 	print(f'//////////{dpto, mpio}//////////')
 	if mpio != 'all':
-		df = soct[soct['cod_mpio']==mpio]
+		df = incid[incid['cod_mpio']==mpio]
 	elif dpto != 'all': 
-		df = soct[soct['cod_dpto']==dpto]
+		df = incid[incid['cod_dpto']==dpto]
 	else:
-		df = soct
-	map_type = 'prom_gasto_pper'
+		df = incid
+	map_type = 'fracc_desnutricion'
 	print(df)
 	fig = px.choropleth(
         df,

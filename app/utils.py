@@ -5,6 +5,7 @@ import os
 import sqlite3
 import plotly.express as px
 import plotly.graph_objects as go
+from nanoid import generate 
 from data import modelpk
 from data import dbase
 
@@ -247,3 +248,7 @@ def latest_pred():
   predicts = cursor.execute(query).fetchall()
   conn.close()
   return predicts
+
+#Genera el id de la predicción
+def uidg(largo=7):
+	return generate('1234567890aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ', largo)

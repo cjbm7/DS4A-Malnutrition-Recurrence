@@ -167,7 +167,7 @@
 								<div class="col-sm-3 col-6">
 									<div class="description-block">
 										<span class="description-percentage text-danger" id="finc"><i class="fas fa-caret-down" id="iinc"></i> <span id="dinc"> 18%</span></span>
-										<h5 class="description-header" id="inc">245200</h5>
+										<h5 class="description-header" id="inc">174</h5>
 										<span class="description-text">Household income</span>
 									</div>
 								<!-- /.description-block -->
@@ -240,7 +240,6 @@ function inc_class(id, valor1, valor2){
 	icont = '#'+'i'+id;
 	difft = '#'+'f'+id;
 	didt = '#'+'d'+id; 
-	alert(idt, didt)
 
 	idc = $(idt);
 	icon = $(icont)
@@ -276,6 +275,27 @@ function inc_class(id, valor1, valor2){
 }
 
 
+function ajax_ind(){ 
+	//var idt = '#plant'+id
+	$.ajax({
+		type: 'GET',
+		url:'/ind_json/'+ dpto.value + '/' + mpio.value,
+		success: function(response){
+			pob = new Intl.NumberFormat("es-CO").format(response.poblacion)
+			asis = new Intl.NumberFormat("es-CO").format(response.n_beneficiarios)
+			$('#pobl').text(pob)
+			$('#assist').text(asis)
+			inc_class('inc', response.ingr_prom, response.dif_inc)
+			inc_class('des', response.fracc_desnutricion, response.dif_desn)
+			inc_class('rec', response.fracc_recuperacion, response.dif_rec)
+			inc_class('recid', response.fracc_reincidencia, response.dif_reinc)
+			console.log(response)
+
+		}
+	})
+};
+
+
 
 
 
@@ -301,6 +321,7 @@ function map(){
 	var source='/dash/col/'+ dpto.value + '/' + mpio.value;
 	console.log(source)
 	$('#map').attr('src', source);
+	ajax_ind()
 }
 
 function ajax_mpios(){ 
@@ -345,6 +366,7 @@ function format ( d ) {
 
 $(document).ready(function() {
 	
+	ajax_ind()
 
 	var table = $('#example').DataTable( {
 		searching: false,
