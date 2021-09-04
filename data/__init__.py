@@ -8,13 +8,13 @@ modelpk = os.path.join(basedir, 'model','CD_his_RF3.pickle')
 
 dpto_mpio = os.path.join(basedir, 'core','dpto_mpio.parquet')
 
-tomas_pq = os.path.join(basedir, 'core','tomas_max_50_act.parquet') #Vista regional y seguimiento nutricional
-#tomas_pq = os.path.join(basedir, 'core','tomas_max_500_act.parquet') #Vista regional y seguimiento nutricional
+#tomas_pq = os.path.join(basedir, 'core','tomas_max_50_act.parquet') #Vista regional y seguimiento nutricional
+tomas_pq = os.path.join(basedir, 'core','tomas_max_500_act.parquet') #Vista regional y seguimiento nutricional
 
 incid_mpio = os.path.join(basedir, 'incidence','incidencia_mpio_act.parquet')
 incid_dpto = os.path.join(basedir, 'incidence','incidencia_dpto_act.parquet')
 
-#tom3000_pq = os.path.join(basedir, 'plots','tomas_3000.parquet')  #Scatterplot
+#tom3000_pq = os.path.join(basedir, 'plots','tomas_3000_c_act.parquet')  #Scatterplot
 tom3000_pq = os.path.join(basedir, 'plots','tomas_3000_act.parquet')  #Scatterplot
 boxplots_pq = os.path.join(basedir, 'plots','data_frame_to_boxplot.parquet')  
 

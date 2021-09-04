@@ -4,6 +4,8 @@ import plotly.express as px
 import pandas as pd
 import json
 
+from app.utils import translate_dataframe
+
 from data import socio_eda_mpios, geojson_mpios, incid_mpio
 
 incid = pd.read_parquet(incid_mpio)
@@ -11,7 +13,11 @@ incid = pd.read_parquet(incid_mpio)
 with open(geojson_mpios) as geo_json:
     mpios_json = json.load(geo_json)
 
-available_indicator = ['fracc_desnutricion', 'fracc_recuperacion', 'fracc_reincidencia']
+diction = {'fracc_desnutricion': 'wasting_prop.', 'fracc_recuperacion':'recover_prop.', 'fracc_reincidenci':'recurrence_prop.'}
+
+incid = translate_dataframe(incid, diction)
+
+available_indicator = ['wasting_prop.', 'recover_prop.', 'recurrence_prop.']
 
 def update_g(dpto='all', mpio='all'):
 	print(f'//////////{dpto, mpio}//////////')
@@ -21,7 +27,7 @@ def update_g(dpto='all', mpio='all'):
 		df = incid[incid['cod_dpto']==dpto]
 	else:
 		df = incid
-	map_type = 'fracc_desnutricion'
+	map_type = 'wasting_prop.'
 	print(df)
 	fig = px.choropleth(
         df,

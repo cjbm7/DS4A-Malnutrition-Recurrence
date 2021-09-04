@@ -155,18 +155,28 @@ def nutrition_monitoring_plot(IdBeneficiario, dataset, points, lang='english'):
   cols_plot = ['Sexo', 'FechaValoracionNutricional', 'EdadMeses', 'Talla', 'Peso', 
               'ZScorePesoTalla', 'EstadoPesoTalla']
   english = {
-    'Desnutrición aguda severa': 'Severely wasted',
-    'Desnutrición aguda moderada': 'Wasted',
-    'Riesgo de desnutrición aguda': 'Risk of wasting',
-    'Peso adecuado para la talla': 'Normal weight for height',
-    'Riesgo de sobrepeso': 'Risk of overweight',
-    'Sobrepeso': 'Overweight',
-    'Obesidad': 'Obesity',
+    'Adecuado para la edad': 'Normal for age',
+ 'Delgadez': 'Thinness',
+ 'Desnutrición aguda severa': 'Severely wasted',
+ 'Desnutrición global': 'Global wasting',
+ 'Desnutrición global severa': 'Severe global wasting',
+ 'Obesidad': 'Obesity',
+ 'Peso adecuado para la edad': 'Normal weight for age',
+ 'Peso adecuado para la talla': 'Normal weight for height',
+ 'Retraso en talla': 'Stunted height',
+ 'Riesgo de baja talla': 'Risk of short stature',
+ 'Riesgo de desnutrición aguda': 'Risk of wasting',
+ 'Riesgo de peso bajo para la edad': 'Low weight-for-age risk',
+ 'Riesgo de sobrepeso': 'Risk of overweight',
+ 'Riesgo para la delgadez': 'Risk for thinness',
+ 'Sobrepeso': 'Overweight',
+ 'Talla adecuada para la edad': 'Normal height for age',
     'plot title': 'Nutritional monitoring',
     'x axis': 'Height (cm)',
     'y axis': 'Weight (kg)',
     'legend title': 'Nutritional status (Weight-for-height)'
     }
+    
     
   spanish = {
     'Desnutrición aguda severa': 'Desnutrición aguda severa',
@@ -222,7 +232,7 @@ def nutrition_monitoring_plot(IdBeneficiario, dataset, points, lang='english'):
                     font=dict(size=14),
                     legend=dict(bgcolor='white',
                                 borderwidth=1))
-  fig.for_each_trace(lambda t: t.update(name = language[t.name]))
+  #fig.for_each_trace(lambda t: t.update(name = language[t.name]))
   fig.add_trace(go.Scatter(x=df['Talla'], y=df['Peso'],
                           mode='lines', showlegend=False,
                           line=dict(color='black', width=1)))

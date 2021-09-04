@@ -8,6 +8,7 @@ import pandas as pd
 import time
 import json
 
+from app.utils import translate_dataframe
 from app import dashapp
 from data import socio_eda_mpios, geojson_mpios
 
@@ -18,7 +19,11 @@ soct = pd.read_parquet(socio_eda_mpios)
 with open(geojson_mpios) as geo_json:
     mpios_json = json.load(geo_json)
 
-available_indicators = ['ingr_prom','prom_gasto_pper','porc_gast']
+transl = {'ingr_prom':'Household inc(avg).','prom_gasto_pper':'spending_food_PPER','porc_gast':'spending_food'}
+
+soct = translate_dataframe(soct, transl)
+
+available_indicators = ['Household inc(avg).','spending_food_PPER','spending_food']
 
 layout = html.Div([
 
@@ -29,7 +34,7 @@ layout = html.Div([
 				dcc.Dropdown(
 					id='map_type',
 					options=[{'label': i, 'value': i} for i in available_indicators],
-					value='porc_gast'
+					value='spending_food'
 				),
 				]),
 				
@@ -75,7 +80,7 @@ def update_graph(map_type=False):
 
 
 def alt_map(valor=None):
-	if valor is None: valor = 'prom_gasto_pper'
+	if valor is None: valor = 'spending_food_PPER'
 	layout = html.Div([
 		dbc.Card([
 			dbc.CardHeader([
