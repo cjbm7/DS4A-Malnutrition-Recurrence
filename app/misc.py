@@ -27,7 +27,7 @@ cols = ['Vigencia', 'Toma', 'Servicio',
        'ZScoreIMC', 'EstadoTallaEdad', 'EstadoPesoEdad', 'EstadoPesoTalla',
        'EstadoIMC', 'Flag', 'AntecedentePremadurez', 'Direccion', 'IdBeneficiario', 'Id',
        'FechaNacimiento', 'Sexo', 'Estrato', 'cod_mpio', 'cod_dpto',
-      'ingresos_promP_imp', 'nom_mpio', 'prediction3m']
+      'ingresos_promP_imp', 'nom_mpio']#, 'prediction3m']
 
 sociodemo_nal = {'cant': 1508999,
                 'ingr_prom': 174825.27,
