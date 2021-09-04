@@ -275,3 +275,26 @@ def carlos():
     data = {"data": details}
     
     return jsonify(data)
+
+
+@app.route('/api/v1/predict3m', methods=['POST'])
+def api_pred3():
+    if request.method=='POST':
+        resp = request.get_json()
+        pred_time = resp['time']
+        dataf = resp['data']
+        
+        pframe = pd.DataFrame(dataf)
+        print(pframe)
+        predict = predict_set(pframe, clf)
+        print(predict)
+        pre_dict= predict.to_dict(orient="records")
+        rspns = {'status' : 'success', 'time' : pred_time, 'data' : pre_dict }
+        #return {'error': 'invalid data'}
+        return jsonify(rspns)
+
+
+        #def predict_set(dataset, model, cols_input=cols_model['clf3'], time=3, depth=2)
+
+
+        
