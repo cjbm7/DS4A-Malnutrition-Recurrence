@@ -204,7 +204,6 @@
 								<th>Height</th>
 								<th>Weight-height Zscore</th>
 								<th>BMI Zscore</th>
-								<th>Undernutrition risk (3 mo)</th>
 							</tr>
 						</thead>
 						<tfoot>
@@ -217,7 +216,6 @@
 								<th>Height</th>
 								<th>Weight-height Zscore</th>
 								<th>BMI Zscore</th>
-								<th>Undernutrition risk (3 mo)</th>
 							</tr>
 						</tfoot>
 					</table>
@@ -397,19 +395,11 @@ $(document).ready(function() {
 			{ "data": "Talla" },
 			{ "data": "ZScorePesoTalla" },
 			{ "data": "ZScoreIMC" },
-			{ "data": "ZScoreIMC" },
 			//{ "data": "prediction3m" }
 		],
 		"columnDefs": [
 				{"className": "dt-center", "targets": "_all"}
 			],
-		"createdRow": function (row, data, dataIndex, cells) {
-			if (data.prediction3m > 0.49 && data.prediction3m <= 0.745) {
-				$(row).addClass('Highlight');
-			}
-			else if (data.prediction3m > 0.745) {
-				$(row).addClass('oHighlight');
-			}}
 	} );
 
 	$('#dpto').change(function() {

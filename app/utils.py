@@ -82,7 +82,8 @@ def predict_set(dataset, model, cols_input=cols_model['clf3'], time=3, depth=2):
   y = [round(q, 2) for p, q in model.predict_proba(X)]
   
   prediction = pd.DataFrame({'IdBeneficiario': Ids,
-                             f'RiesgoDesnutricion{time}meses': y})
+                             'RiesgoDesnutricion': y})
+                             #f'RiesgoDesnutricion{time}meses': y})
   prediction = prediction.drop_duplicates(subset=['IdBeneficiario'], keep='last')
   data = df.drop_duplicates(subset=['IdBeneficiario'], keep='last')
   result =  data.merge(prediction, on='IdBeneficiario', how='left')

@@ -20,7 +20,7 @@ def uidg(largo=7):
 @app.route('/')  #Página de inicio
 def inicio():
     context = {
-        'pagina': 'DS4a Final Project - Recurrence of malnutrition in Colombia: Analysis and prediction of associated risk factors',
+        'pagina': 'DS4a Final Project',
         'all_contacts': contacts
         }
     return render_template('index.html', **context)
@@ -54,7 +54,6 @@ def regional():
         'dptos': dptos
         }
     return render_template('regional.html', **context)
-
 
 
 @app.route('/municipios/<dpto>')
@@ -160,17 +159,21 @@ def seg_nutricional(idBeneficiario=False):
         print(f'//////////////// tiempo total: {fin-inicio}s\\\\\\\\\\\\\\')
     except:
         return 'Error al conectar tomas.parquet'
-    context['Prediction'] = 0.30     # Corregir
+    try:
+        query_all = f"SELECT * FROM '{tomas_pq}' WHERE IdBeneficiario = {idBeneficiario}"
+        ben_all = con.execute(query_all).df()
+        prd = predict_set(ben_all, clf)
+        rsk = prd['RiesgoDesnutricion'][0]
+        risk = pred_risk(rsk)
+        context['Prediction'] = str ( rsk * 100) + '% - ' + risk
+    except:
+        context['Prediction'] = 'N.D.'
     context['FechaValoracionNutricional'] = context['FechaValoracionNutricional'].strftime('%Y-%m-%d')
     if context['FechaNacimiento']: context['FechaNacimiento'] = context['FechaNacimiento'].strftime('%Y-%m-%d')
     else: context['FechaNacimiento'] = 'Undisclosed'
-    try:
-      risk = pred_risk(context['Prediction'])
-      context['Prediction'] = str (context['Prediction'] * 100) + '% - ' + risk
-    except:
-      context['Prediction'] = 'N.D.'
     datetim = datetime.datetime.now()
     context['Datetime'] = datetim.strftime('%Y-%m-%d, %H:%M')
+    print(context['Prediction'])
     return render_template('fichanutricional.html', **context)
 
 
@@ -209,7 +212,6 @@ def data_json(dpto='all', mpio='all'):
         return {}
 
 
-
 @app.route('/ind_json/<dpto>/<mpio>', methods=['GET','POST'])
 def ind_json(dpto='all', mpio='all'):
     con = duckdb.connect()
@@ -242,59 +244,39 @@ def ind_json(dpto='all', mpio='all'):
     return jsonify(data)
 
 
+@app.route('/api')
+def api_view():
+    return render_template('api.html')
 
 
-def carlos():
-    if mpio != 'all':
-      query_i = f"SELECT * FROM '{incid_mpio}' WHERE cod_mpio = '{mpio}'"
-      query_s = f"SELECT * FROM '{socio_eda_mpios}' WHERE cod_mpio = '{mpio}'"
-    elif dpto != 'all':
-      query_i = f"SELECT * FROM '{incid_dpto}' WHERE cod_dpto = '{dpto}'"
-      query_s = f"SELECT * FROM '{socio_eda_dptos}' WHERE cod_mpio = '{dpto}'"
-    else:
-      query_i = f"SELECT * FROM '{incid_dpto}' WHERE cod_mpio = '10'"
-      sociod = sociodemo_nal
-    
-    try:
-        con = duckdb.connect()    #Inicialización de Duckdb para hacer query sobre un .parquet
-        con.execute("PRAGMA threads=2")
-        con.execute("PRAGMA enable_object_cache")
-        qry_i = con.execute(query_i).df()
-        print(qry_i)
-        indic = qry_i.to_dict(orient="records")
-    except:
-        return 'Error al conectar tomas.parquet'
-    if not sociod:
-        try:
-            qry_s = con.execute(query_s).df()
-            sociod = qry_s.to_dict(orient="records")
-        except:
-            sociod = {}
-    details = indic | sociod
-
-    data = {"data": details}
-    
-    return jsonify(data)
-
-
-@app.route('/api/v1/predict3m', methods=['POST'])
-def api_pred3():
+@app.route('/api/v1/predict', methods=['POST'])
+def api_pred():
     if request.method=='POST':
         resp = request.get_json()
         pred_time = resp['time']
         dataf = resp['data']
-        
-        pframe = pd.DataFrame(dataf)
-        print(pframe)
-        predict = predict_set(pframe, clf)
-        print(predict)
-        pre_dict= predict.to_dict(orient="records")
-        rspns = {'status' : 'success', 'time' : pred_time, 'data' : pre_dict }
-        #return {'error': 'invalid data'}
+        try:
+            pframe = pd.DataFrame(dataf)
+            print(pframe.dtypes)
+            cols = ['EdadMeses', 'ZScorePesoTalla','ZScoreIMC']
+            import numpy as np
+            for col in cols:
+                pframe[col].replace('', np.nan)
+                pframe[col].replace(r'\s+', np.nan, regex=True)
+                pframe[col] = pframe[col].astype('float')
+            if pred_time in range(5):
+                pass
+            else:
+                pred_time = 3
+            print(pframe)
+            predict = predict_set(pframe, clf, time=pred_time)
+            print(predict)
+            predict = predict[["IdBeneficiario", "RiesgoDesnutricion"]]
+            pre_dict= predict.to_dict(orient="records")
+            rspns = {'status' : 'success', 'time' : pred_time, 'data' : pre_dict }
+        except:
+            rspns = {'status': 'invalid data'}
         return jsonify(rspns)
-
-
-        #def predict_set(dataset, model, cols_input=cols_model['clf3'], time=3, depth=2)
 
 
         

@@ -13,9 +13,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="{{ url_for('static',filename='fontawesome-free/css/all.min.css')}}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
   <!-- Theme style -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.1.0/css/adminlte.min.css">
+
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
   {% block head %}{% endblock %}
 </head>
 <body class="hold-transition sidebar-mini">
@@ -152,18 +154,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
           <li class="nav-item">
-            <a href="/" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
-              <p>
-                The Team
-                <span class="right badge badge-danger">New</span>
-              </p>
+            <a href="{{ url_for('api_view') }}" class="nav-link">
+              <i class="fas fa-code nav-icon"></i>
+              <p>API</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="fas fa-language nav-icon"></i>
-              <p>Language</p>
+            <a href="https://github.com/cjbm7/DS4A-Malnutrition-Recurrence/" class="nav-link">
+              <i class="nav-icon fab fa-github"></i>
+              <p>
+                Github
+              </p>
             </a>
           </li>
         </ul>

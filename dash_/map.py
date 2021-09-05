@@ -80,7 +80,7 @@ def update_graph(map_type=False):
 
 
 def alt_map(valor=None):
-	if valor is None: valor = 'spending_food_PPER'
+	if valor is None: valor = 'Household inc(avg).'
 	layout = html.Div([
 		dbc.Card([
 			dbc.CardHeader([

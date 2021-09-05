@@ -192,7 +192,7 @@
 			<div class="card">
 				<div class="card-header">
 					<div class="row align-items-start">
-						<center><h4>Predictor results</h4></center>
+						<center><h4>Predictor results (3 Months)</h4></center>
 					</div>
 				</div>
 				<!-- /.card-header -->
@@ -288,16 +288,17 @@ $(document).ready(function() {
             { "data": "Talla" },
 			{ "data": "ZScorePesoTalla" },
 			{ "data": "ZScoreIMC" },
-			{ "data": "RiesgoDesnutricion3meses" }
+			{ "data": "RiesgoDesnutricion" }
         ],
+		"order": [[ 6, "desc" ]],
 		"columnDefs": [
 				{"className": "dt-center", "targets": "_all"}
 			],
 		"createdRow": function (row, data, dataIndex, cells) {
-			if (data.RiesgoDesnutricion3meses > 0.45 && data.RiesgoDesnutricion3meses < 0.59) {
+			if (data.RiesgoDesnutricion > 0.45 && data.RiesgoDesnutricion < 0.59) {
 				$(row).addClass('Highlight');
 			}
-			else if (data.RiesgoDesnutricion3meses >= 0.59) {
+			else if (data.RiesgoDesnutricion >= 0.59) {
 				$(row).addClass('oHighlight');
 			}}
     } );

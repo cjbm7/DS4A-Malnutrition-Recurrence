@@ -13,15 +13,21 @@ import plotly
 import plotly.express as px
 from app import dashapp
 from data import boxplots_pq
+from app.utils import translate_dataframe
 
 inicio = time.time()
 
 dt = pd.read_parquet(boxplots_pq)
-available_indicators = ['Sexo','PresentaDiscapacidad', 'ZonaUbicacionBeneficiario', 'GrupoEtnico']
-dt_sexo = dt.dropna(subset=['Sexo'])[['Sexo','ZScorePesoTallaT1']].sample(30000)
-dt_disc = dt.dropna(subset=['PresentaDiscapacidad'])[['PresentaDiscapacidad','ZScorePesoTallaT1']].sample(30000)
-dt_Ubicacion = dt.dropna(subset=['ZonaUbicacionBeneficiario'])[['ZonaUbicacionBeneficiario','ZScorePesoTallaT1']].sample(30000)
-dt_Grupo = dt.dropna(subset=['GrupoEtnico'])[['GrupoEtnico','ZScorePesoTallaT1']].sample(150000)
+
+transl = {'ZScorePesoTallaT1':'Weight-Height Zscore', 'Sexo': 'Gender','PresentaDiscapacidad':'HasDisability', 'ZonaUbicacionBeneficiario':'BeneficiaryLocation', 'GrupoEtnico':'EthnicGroup'}
+
+dt = translate_dataframe(dt, transl)
+
+available_indicators = ['Gender','HasDisability', 'BeneficiaryLocation', 'EthnicGroup']
+dt_sexo = dt.dropna(subset=['Gender'])[['Gender','Weight-Height Zscore']].sample(30000)
+dt_disc = dt.dropna(subset=['HasDisability'])[['HasDisability','Weight-Height Zscore']].sample(30000)
+dt_Ubicacion = dt.dropna(subset=['BeneficiaryLocation'])[['BeneficiaryLocation','Weight-Height Zscore']].sample(30000)
+dt_Grupo = dt.dropna(subset=['EthnicGroup'])[['EthnicGroup','Weight-Height Zscore']].sample(150000)
 
 fin = time.time()
 print(f"Tiempo de ejecucion: {fin-inicio}")
@@ -36,7 +42,7 @@ layout = html.Div([
 				dcc.Dropdown(
 					id='xaxis-column',
 					options=[{'label': i, 'value': i} for i in available_indicators],
-					value='Sexo'
+					value='Gender'
 				)
 				])
 			],style={'width': '48%', 'display': 'inline-block'}),
@@ -51,14 +57,14 @@ layout = html.Div([
     Output('box-plot', 'figure'),
     [Input('xaxis-column', 'value'),])
 def update_graph(x):
-	if x == 'Sexo':
-		fig = px.box(data_frame=dt_sexo, x= x, y='ZScorePesoTallaT1', color = x)
-	elif x == 'PresentaDiscapacidad':
-		fig = px.box(data_frame=dt_disc, x= x, y='ZScorePesoTallaT1', color = x)
-	elif x == 'ZonaUbicacionBeneficiario':
-		fig = px.box(data_frame=dt_Ubicacion, x= x, y='ZScorePesoTallaT1', color = x)
-	elif x == 'GrupoEtnico':
-		fig = px.box(data_frame=dt_Grupo, x= x, y='ZScorePesoTallaT1', color = x)
+	if x == 'Gender':
+		fig = px.box(data_frame=dt_sexo, x= x, y='Weight-Height Zscore', color = x)
+	elif x == 'HasDisability':
+		fig = px.box(data_frame=dt_disc, x= x, y='Weight-Height Zscore', color = x)
+	elif x == 'BeneficiaryLocation':
+		fig = px.box(data_frame=dt_Ubicacion, x= x, y='Weight-Height Zscore', color = x)
+	elif x == 'EthnicGroup':
+		fig = px.box(data_frame=dt_Grupo, x= x, y='Weight-Height Zscore', color = x)
 
 	fig.update_layout(
 		title=f'{x} - Zscore',

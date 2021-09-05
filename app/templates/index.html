@@ -3,36 +3,12 @@
 
 {% block head %}
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
   <style type="text/css" class="init">
-  
-  </style>
-   
-
-
-{% endblock %}
-
-{% block content %}
-
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Recurrence of malnutrition in Colombia</title>
-
-  <!-- BOOTSTRAP CSS CDN -->
-  <link rel="stylesheet" 
-  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
-  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <!-- FONT AWESOME -->
-  <script defer src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"></script>
-  <!-- CUSTOM CSS -->
-  
-  <style>
-
+    
     .home-inner {
       padding: 150px;
     }
@@ -44,68 +20,44 @@
     }
 
   </style>
-</head>
-<body>
+   
 
-  <!-- NAVIGATION -->
 
-  <!-- <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
-    <div class="container">
-      <a href="index.html" class="navbar-brand">
-        DS4a - Group 12
-      </a>
+{% endblock %}
 
-      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-        <span class = "navbar-toggler-icon"></span>
-        
-
-      </button>
-      <div class = "collapse navbar-collapse" id="navbarCollapse">
-        <ul class = "navbar-nav ml-auto">
-          <li class="nav-item">
-            <a href="#home-section" class="nav-link">Home</a>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Predictor</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">EDA</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Regional Map</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Box Plots</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Nutritional Seccurity</a>
-            </li>
-          </ul>
-        </div>
-
-      </div>   
-
-    </nav> -->
-
+{% block content %}
     <!-- HOME -->
+  <div class="container">
+    <div class="row">
+     <div class="col text-center">
+       <h2>
+        Correlation One - DS4a 
+       </h2>
+       <h4>
+        Team 12 Project for the ICBF
+       </h4> 
+     </div>
+   </div>
+ </div>
 
-      <div class="dark-overlay">
-        <div class="home-inner">
-          <div class="container">
-            <div class="row">
-             <div class="col text-center">
-              <h1 class="display-4">
-                <strong>Correlation One - DS4a <br> Group 12 Project for the ICBF</strong>
-              </h1>
-            </div>
-          </div>
+<br>
+<hr>
+<br>
 
-        </div>
-      </div>
-    </div>
+  <div class="container">
+    <div class="row">
+     <div class="col text-center">
+       <h1>
+        Recurrence of malnutrition in Colombia: Analysis and prediction of associated risk factors
+       </h1> 
+     </div>
+   </div>
+ </div>
 
-
-
-
+    
+<br>
+<hr>
+<br>
     <!-- ICBF 2 -->
     <section class="info-section bg-light text-muted py-5" id="info-section">
       <div class="container">
@@ -210,12 +162,4 @@
     </div>
 
   </footer>
-
-  <!-- BOOTSTRAP SCRIPT CDN -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>
 {% endblock %}
